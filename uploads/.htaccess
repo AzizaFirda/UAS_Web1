@@ -1,0 +1,5 @@
+# Protect uploads directory
+Options -Indexes
+<Files ~ "\.php$">
+    Deny from all
+</Files>

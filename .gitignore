@@ -1,0 +1,34 @@
+# Configuration files
+backend/config/database.php
+
+# Upload directories
+uploads/*
+!uploads/.htaccess
+uploads/profile/*
+!uploads/profile/.htaccess
+uploads/profile_photos/*
+!uploads/profile_photos/.htaccess
+
+# Logs
+*.log
+error_log
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.bak
+
+# Environment files
+.env
+.env.local
