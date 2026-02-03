@@ -28,19 +28,25 @@ set_exception_handler(function($exception) {
     exit();
 });
 
-try {
-    require_once __DIR__ . '/../config/database.php';
-    require_once __DIR__ . '/../middleware/AuthMiddleware.php';
-    require_once __DIR__ . '/../models/User.php';
-    require_once __DIR__ . '/../models/Category.php';
-} catch (Exception $e) {
+// Load dependencies
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../middleware/AuthMiddleware.php';
+require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/Category.php';
+
+// Verify functions are loaded
+if (!function_exists('sendSuccess') || !function_exists('sendError')) {
     ob_end_clean();
     header('Content-Type: application/json');
     http_response_code(500);
     echo json_encode([
         'status' => 'error',
-        'message' => 'Failed to load required files',
-        'error' => $e->getMessage()
+        'message' => 'Helper functions not loaded',
+        'debug' => [
+            'sendSuccess_exists' => function_exists('sendSuccess'),
+            'sendError_exists' => function_exists('sendError'),
+            'database_loaded' => class_exists('Database')
+        ]
     ]);
     exit();
 }
