@@ -124,11 +124,8 @@ function handleRegister($userModel) {
         sendError('Email already registered');
     }
     
-    // Create user
+    // Create user (User model already creates default categories)
     $userId = $userModel->create($data);
-    
-    // Initialize default categories for new user
-    initializeDefaultData($userId);
     
     sendSuccess(['user_id' => $userId], 'Registration successful');
 }
