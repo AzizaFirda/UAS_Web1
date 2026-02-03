@@ -200,7 +200,8 @@ function handleMe($userModel) {
 
 function initializeDefaultData($userId) {
     try {
-        $db = getDB();
+        $database = new Database();
+        $db = $database->connect();
         
         // Check if user already has categories
         $checkSql = "SELECT COUNT(*) as count FROM categories WHERE user_id = :user_id";
@@ -279,7 +280,8 @@ function initializeDefaultData($userId) {
 }
 
 function handleInitMissingAccounts() {
-    $db = getDB();
+    $database = new Database();
+    $db = $database->connect();
     
     session_start();
     if (!isset($_SESSION['user_id'])) {
