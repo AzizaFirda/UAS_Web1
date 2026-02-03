@@ -7,7 +7,8 @@ class Category {
     private $db;
     
     public function __construct() {
-        $this->db = getDB();
+        $database = new Database();
+        $this->db = $database->connect();
     }
     
     // CREATE Category
