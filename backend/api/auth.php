@@ -49,8 +49,12 @@ header('Content-Type: application/json');
 
 // Handle CORS
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if (strpos($origin, 'localhost') !== false || strpos($origin, '127.0.0.1') !== false) {
-    header('Access-Control-Allow-Origin: ' . $origin);
+$allowed_origins = ['localhost', '127.0.0.1', 'pipil.my.id', 'www.pipil.my.id'];
+foreach ($allowed_origins as $allowed) {
+    if (strpos($origin, $allowed) !== false) {
+        header('Access-Control-Allow-Origin: ' . $origin);
+        break;
+    }
 }
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
