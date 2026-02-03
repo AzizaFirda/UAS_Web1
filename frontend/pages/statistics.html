@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics - Personal Finance Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="../assets/js/translations.js"></script>
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --primary-emerald: #10B981;
+            --primary-emerald-dark: #059669;
+            --secondary-emerald: #34D399;
+            --accent-brown: #8B4513;
+            --soft-brown: #D4A574;
+            --light-brown: #F5E6D3;
+            --pink: #FFC0CB;
+            --soft-pink: #FFE4E9;
+            --rose: #FF69B4;
+            --dark-grey: #2C3E50;
+            --medium-grey: #6B7280;
+            --light-grey: #F3F4F6;
+            --white: #FFFFFF;
+            --emerald-light: #D1FAE5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+            color: var(--dark-grey);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, var(--dark-grey) 0%, #34495E 50%, #5D6D7E 100%);
+            padding: 20px 0;
+            color: white;
+            z-index: 1000;
+            border-right: 4px solid var(--soft-brown);
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-brand {
+            padding: 0 20px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--soft-brown);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-brand i {
+            font-size: 2.5rem;
+            color: var(--soft-brown);
+            display: block;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .sidebar-brand h4 {
+            margin: 10px 0 0;
+            font-weight: 800;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 0.5px;
+            font-size: 1.3rem;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 15px 25px;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+        
+        .sidebar-menu li a:hover {
+            background: rgba(212, 165, 116, 0.15);
+            color: var(--soft-brown);
+            padding-left: 35px;
+            border-left-color: var(--soft-brown);
+        }
+        
+        .sidebar-menu li a.active {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.2) 0%, transparent 100%);
+            color: var(--secondary-emerald);
+            border-left-color: var(--primary-emerald);
+            padding-left: 30px;
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Sidebar Bottom Section - Language & Logout */
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 0 15px 15px;
+        }
+        
+        .language-section {
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+        
+        .language-section:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(212, 165, 116, 0.3);
+        }
+        
+        .language-section p {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .language-section p i {
+            margin-right: 6px;
+            font-size: 0.85rem;
+        }
+        
+        .language-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .lang-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--soft-brown);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+        }
+        
+        .lang-btn.active {
+            border-color: var(--soft-brown);
+            background: linear-gradient(135deg, var(--soft-brown) 0%, var(--accent-brown) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);
+        }
+        
+        .logout-section {
+            padding: 0;
+        }
+        
+        .logout-btn {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #EF4444;
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+        
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+            border-color: #DC2626;
+        }
+        
+        .logout-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .logout-btn i {
+            font-size: 1.1rem;
+        }
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px 25px;
+            min-height: 100vh;
+        }
+        
+        .main-content h3 {
+            font-weight: 800;
+            color: var(--dark-grey);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+        
+        .filter-card {
+            background: linear-gradient(135deg, white 0%, #F9FAFB 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            border: 1px solid #E5E7EB;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .filter-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .filter-card:hover {
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .filter-card .form-select,
+        .filter-card .form-control {
+            border-radius: 10px;
+            border: 2px solid #E5E7EB;
+            padding: 12px 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+        
+        .filter-card .form-select:focus,
+        .filter-card .form-control:focus {
+            border-color: var(--primary-emerald);
+            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.15);
+        }
+        
+        .filter-card .form-label {
+            font-weight: 700;
+            color: var(--dark-grey);
+            margin-bottom: 10px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, white 0%, #F9FAFB 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid #E5E7EB;
+            border-left: 4px solid var(--primary-emerald);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.15);
+        }
+        
+        .stat-card h5 {
+            font-size: 0.85rem;
+            color: var(--medium-grey);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        
+        .chart-card {
+            background: linear-gradient(135deg, white 0%, #F9FAFB 100%);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            border: 1px solid #E5E7EB;
+            border-top: 4px solid var(--primary-emerald);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .chart-card:hover {
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.15);
+            transform: translateY(-5px);
+        }
+        
+        .chart-card h5 {
+            font-weight: 700;
+            color: var(--dark-grey);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.15rem;
+        }
+        
+        .chart-card h5 i {
+            color: var(--primary-emerald);
+        }
+        
+        .category-item {
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            border: 1px solid #E5E7EB;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .category-item:hover {
+            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+            border-color: var(--primary-emerald);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.15);
+        }
+        
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-right: 15px;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.1));
+            color: var(--primary-emerald);
+            font-weight: 600;
+        }
+        
+        .category-item:hover .category-icon {
+            transform: scale(1.15) rotate(8deg);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.2));
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2);
+        }
+        
+        .progress-custom {
+            height: 8px;
+            border-radius: 10px;
+            margin-top: 8px;
+            background: #E5E7EB;
+            overflow: hidden;
+        }
+        
+        .progress-custom .progress-bar {
+            background: linear-gradient(90deg, var(--primary-emerald) 0%, var(--secondary-emerald) 100%);
+            border-radius: 10px;
+        }
+        
+        .export-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-emerald) 0%, var(--primary-emerald-dark) 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .export-btn:hover {
+            transform: scale(1.15) rotate(90deg);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-emerald) 0%, var(--primary-emerald-dark) 100%);
+            border: none;
+            color: white;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+            border: none;
+            color: white;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+            color: white;
+        }
+        
+        .footer {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            text-align: center;
+            color: var(--medium-grey);
+            font-size: 14px;
+            border-top: 2px solid #E5E7EB;
+            background: white;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .footer {
+                margin-left: 0;
+            }
+            
+            .export-btn {
+                bottom: 80px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+        <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-wallet fa-3x"></i>
+            <h4>Finance Manager</h4>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i><span data-i18n="dashboard">Dashboard</span></a></li>
+            <li><a href="transaction.html"><i class="fas fa-exchange-alt"></i><span data-i18n="transactions">Transactions</span></a></li>
+            <li><a href="statistics.html" class="active"><i class="fas fa-chart-pie"></i><span data-i18n="statistics">Statistics</span></a></li>
+            <li><a href="accounts.html"><i class="fas fa-credit-card"></i><span data-i18n="accounts">Accounts</span></a></li>
+            <li><a href="settings.html"><i class="fas fa-cog"></i><span data-i18n="settings">Settings</span></a></li>
+        </ul>
+        
+        <!-- Sidebar Bottom: Language & Logout -->
+        <div class="sidebar-bottom">
+            <!-- Language Switcher -->
+            <div class="language-section">
+                <p>
+                    <i class="fas fa-globe"></i>
+                    <span data-i18n="language">Language</span>
+                </p>
+                <div class="language-buttons">
+                    <button class="lang-btn active" data-lang="id" onclick="changeLang('id')">
+                        🇮🇩 ID
+                    </button>
+                    <button class="lang-btn" data-lang="en" onclick="changeLang('en')">
+                        🇺🇸 EN
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Logout Button -->
+            <div class="logout-section">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span data-i18n="logout">Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h3 class="mb-4"><i class="fas fa-chart-pie me-2"></i><span data-i18n="statisticsTitle">Statistics</span></h3>
+        
+        <!-- Filter Period -->
+        <div class="filter-card">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label" data-i18n="month">Bulan</label>
+                    <select class="form-select" id="filterMonth" title="Pilih bulan">
+                        <option value="01" data-i18n="january">Januari</option>
+                        <option value="02" data-i18n="february">Februari</option>
+                        <option value="03" data-i18n="march">Maret</option>
+                        <option value="04" data-i18n="april">April</option>
+                        <option value="05" data-i18n="may">Mei</option>
+                        <option value="06" data-i18n="june">Juni</option>
+                        <option value="07" data-i18n="july">Juli</option>
+                        <option value="08" data-i18n="august">Agustus</option>
+                        <option value="09" data-i18n="september">September</option>
+                        <option value="10" data-i18n="october">Oktober</option>
+                        <option value="11" data-i18n="november">November</option>
+                        <option value="12" data-i18n="december">Desember</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" data-i18n="year">Tahun</label>
+                    <input type="number" class="form-control" id="filterYear" placeholder="Tahun" title="Pilih tahun" min="2020" max="2030">
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary w-100" onclick="loadStatistics()">
+                        <i class="fas fa-sync-alt me-2"></i><span data-i18n="refresh">Refresh</span>
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <div class="btn-group w-100">
+                        <button class="btn btn-success" onclick="exportReport('pdf')">
+                            <i class="fas fa-file-pdf me-2"></i><span data-i18n="exportPdf">Export PDF</span>
+                        </button>
+                        <button class="btn btn-success" onclick="exportReport('excel')">
+                            <i class="fas fa-file-excel me-2"></i><span data-i18n="exportExcel">Export Excel</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Overview Stats -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 legend-icon-success">
+                            <i class="fas fa-arrow-down fa-2x text-success"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted" data-i18n="totalIncome">Pemasukan</small>
+                            <h5 class="mb-0 text-success" id="totalIncome">Rp 0</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 legend-icon-danger">
+                            <i class="fas fa-arrow-up fa-2x text-danger"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted" data-i18n="totalExpense">Pengeluaran</small>
+                            <h5 class="mb-0 text-danger" id="totalExpense">Rp 0</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 legend-icon-primary">
+                            <i class="fas fa-chart-line fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted" data-i18n="balance">Saldo</small>
+                            <h5 class="mb-0 text-primary" id="totalBalance">Rp 0</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 legend-icon-info">
+                            <i class="fas fa-exchange-alt fa-2x text-purple"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted" data-i18n="transactionCount">Transaksi</small>
+                            <h5 class="mb-0" id="totalTransactions">0</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts Row 1 -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chart-card">
+                    <h5 class="mb-4"><i class="fas fa-chart-pie me-2"></i><span data-i18n="expenseByCategory">Pengeluaran per Kategori</span></h5>
+                    <div style="position: relative; height: 300px; width: 100%;">
+                        <canvas id="expensePieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="chart-card">
+                    <h5 class="mb-4"><i class="fas fa-chart-bar me-2"></i><span data-i18n="incomeExpenseChart">Pemasukan vs Pengeluaran</span></h5>
+                    <div style="position: relative; height: 300px; width: 100%;">
+                        <canvas id="incomeExpenseChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts Row 2 -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="chart-card">
+                    <h5 class="mb-4"><i class="fas fa-chart-area me-2"></i>Tren 12 Bulan Terakhir</h5>
+                    <div style="position: relative; height: 250px; width: 100%;">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Category Details -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chart-card">
+                    <h5 class="mb-4"><i class="fas fa-list me-2"></i>Detail Kategori Pengeluaran</h5>
+                    <div id="expenseCategoryList">
+                        <p class="text-center text-muted">Memuat data...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="chart-card">
+                    <h5 class="mb-4"><i class="fas fa-wallet me-2"></i>Detail Akun</h5>
+                    <div id="accountList">
+                        <p class="text-center text-muted">Memuat data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <i class="fas fa-copyright me-2"></i><strong>Copyright by 23552011059_AzizaFirdaus_CNS-B_UASWEB1</strong>
+        </div>
+    </div>
+    <style>
+        .footer {
+            margin-left: var(--sidebar-width);
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 50%, #A7F3D0 100%);
+            border-top: 3px solid var(--primary-emerald);
+            font-weight: 600;
+            color: var(--primary-emerald-dark);
+            font-size: 0.95rem;
+            box-shadow: 0 -5px 20px rgba(16, 185, 129, 0.15);
+        }
+        
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.5px;
+            animation: fadeIn 0.8s ease-out;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <!-- Import shared utilities -->
+    <script src="../assets/js/app.js"></script>
+    <!-- Import Statistics module -->
+    <script src="../assets/js/statistics.js"></script>
+    <script>
+        // Use API_URL from app.js (APP_CONFIG.API_URL)
+        const API_URL = APP_CONFIG.API_URL;
+
+        /**
+         * Check authentication and initialize
+         */
+        async function checkAuth() {
+            try {
+                const response = await fetch(`${API_URL}/auth.php?action=check`);
+                const data = await response.json();
+                if (!data.data.authenticated) {
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Language switching function
+        function changeLang(lang) {
+            if (langManager) {
+                langManager.setLanguage(lang);
+            }
+        }
+        
+        function updateLanguageButtons() {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === langManager.getCurrentLang()) {
+                    btn.classList.add('active');
+                    btn.style.borderColor = 'var(--soft-brown)';
+                    btn.style.color = 'white';
+                } else {
+                    btn.style.borderColor = 'transparent';
+                    btn.style.color = 'rgba(255,255,255,0.7)';
+                }
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(async () => {
+                if (langManager) {
+                    langManager.updatePageContent();
+                    updateLanguageButtons();
+                }
+                
+                checkAuth();
+                
+                // Initialize missing accounts (E-Wallet)
+                try {
+                    await fetch(`${APP_CONFIG.API_URL}/auth.php?action=init-missing-accounts`, {
+                        credentials: 'include'
+                    });
+                } catch (error) {
+                    console.warn('Could not initialize missing accounts:', error);
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

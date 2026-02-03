@@ -1,0 +1,195 @@
+<!-- frontend/components/navbar.html -->
+<!-- Sidebar Navigation Component -->
+<div class="sidebar" id="appSidebar">
+    <div class="sidebar-brand">
+        <i class="fas fa-wallet fa-3x"></i>
+        <h4>Finance Manager</h4>
+        <p class="mb-0 mt-2" style="font-size: 12px; opacity: 0.8;" id="userNameSidebar">Loading...</p>
+    </div>
+    
+    <ul class="sidebar-menu">
+        <li>
+            <a href="/frontend/pages/dashboard.html" id="nav-dashboard">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+        </li>
+        <li>
+            <a href="/frontend/pages/transaction.html" id="nav-transaction">
+                <i class="fas fa-exchange-alt"></i> Transactions
+            </a>
+        </li>
+        <li>
+            <a href="/frontend/pages/statistics.html" id="nav-statistics">
+                <i class="fas fa-chart-pie"></i> Statistics
+            </a>
+        </li>
+        <li>
+            <a href="/frontend/pages/accounts.html" id="nav-accounts">
+                <i class="fas fa-credit-card"></i> Accounts
+            </a>
+        </li>
+        <li>
+            <a href="/frontend/pages/categories.html" id="nav-categories">
+                <i class="fas fa-tag"></i> Categories
+            </a>
+        </li>
+        <li>
+            <a href="/frontend/pages/calender.html" id="nav-calender">
+                <i class="fas fa-calendar"></i> Calendar
+            </a>
+        </li>
+        <li>
+            <a href="/frontend/pages/settings.html" id="nav-settings">
+                <i class="fas fa-cog"></i> Settings
+            </a>
+        </li>
+    </ul>
+    
+    <div style="position: absolute; bottom: 20px; width: 100%; padding: 0 20px;">
+        <button class="btn btn-light w-100" onclick="handleLogout()" style="border-radius: 10px;">
+            <i class="fas fa-sign-out-alt me-2"></i>Logout
+        </button>
+    </div>
+</div>
+
+<!-- Sidebar Styles (included inline for component) -->
+<style>
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 250px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px 0;
+        color: white;
+        z-index: 1000;
+        overflow-y: auto;
+        box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+    }
+    
+    .sidebar-brand {
+        padding: 0 20px 20px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        margin-bottom: 20px;
+    }
+    
+    .sidebar-brand h4 {
+        margin: 10px 0 0;
+        font-weight: 700;
+    }
+    
+    .sidebar-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .sidebar-menu li a {
+        display: block;
+        padding: 15px 25px;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s;
+        position: relative;
+    }
+    
+    .sidebar-menu li a:hover {
+        background: rgba(255,255,255,0.15);
+        padding-left: 30px;
+    }
+    
+    .sidebar-menu li a.active {
+        background: rgba(255,255,255,0.25);
+        padding-left: 30px;
+        border-left: 4px solid white;
+    }
+    
+    .sidebar-menu li a i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s;
+        }
+        
+        .sidebar.show {
+            transform: translateX(0);
+        }
+    }
+</style>
+
+<!-- Navbar JavaScript -->
+<script>
+    // Set active menu based on current page
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
+        const navLink = document.getElementById('nav-' + currentPage);
+        
+        if (navLink) {
+            // Remove all active classes
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active class to current page
+            navLink.classList.add('active');
+        }
+        
+        // Load user name in sidebar
+        loadUserNameSidebar();
+    });
+    
+    async function loadUserNameSidebar() {
+        try {
+            const currentPath = window.location.pathname;
+            const pathParts = currentPath.split('/');
+            let basePath = '';
+            
+            // Find the base path dynamically (everything up to 'frontend')
+            const frontendIndex = pathParts.indexOf('frontend');
+            if (frontendIndex > 0) {
+                basePath = pathParts.slice(0, frontendIndex).join('/');
+            }
+            
+            const API_URL = basePath + '/backend/api';
+            const response = await fetch(`${API_URL}/auth.php?action=me`, {
+                credentials: 'include'
+            });
+            const data = await response.json();
+            
+            if (!data.error && data.data.user) {
+                document.getElementById('userNameSidebar').textContent = data.data.user.name;
+            }
+        } catch (error) {
+            console.error('Error loading user:', error);
+        }
+    }
+    
+    async function handleLogout() {
+        if (confirm('Apakah Anda yakin ingin logout?')) {
+            const currentPath = window.location.pathname;
+            const pathParts = currentPath.split('/');
+            let basePath = '';
+            
+            // Find the base path dynamically (everything up to 'frontend')
+            const frontendIndex = pathParts.indexOf('frontend');
+            if (frontendIndex > 0) {
+                basePath = pathParts.slice(0, frontendIndex).join('/');
+            }
+            
+            const API_URL = basePath + '/backend/api';
+            await fetch(`${API_URL}/auth.php?action=logout`, { 
+                method: 'POST',
+                credentials: 'include'
+            });
+            window.location.href = 'login.html';
+        }
+    }
+</script>

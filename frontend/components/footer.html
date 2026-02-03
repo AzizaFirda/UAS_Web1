@@ -1,0 +1,154 @@
+<!-- frontend/components/footer.html -->
+<!-- Footer Component -->
+<footer class="app-footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <p class="mb-0">
+                <strong>Personal Finance Manager</strong> - Kelola Keuangan Anda dengan Mudah
+            </p>
+        </div>
+        
+        <div class="footer-center">
+            <p class="mb-0 copyright-text">
+                ©Copyright by 23552011059_Aziza Firdaus_23 CNS B_UASWEB1
+            </p>
+        </div>
+        
+        <div class="footer-right">
+            <p class="mb-0">
+                <span id="currentYear"></span> • Version 1.0.0
+            </p>
+        </div>
+    </div>
+    
+    <div class="footer-links">
+        <a href="#" onclick="showAbout(); return false;">Tentang</a>
+        <span class="separator">•</span>
+        <a href="#" onclick="showHelp(); return false;">Bantuan</a>
+        <span class="separator">•</span>
+        <a href="#" onclick="showPrivacy(); return false;">Kebijakan Privasi</a>
+        <span class="separator">•</span>
+        <a href="#" onclick="showContact(); return false;">Kontak</a>
+    </div>
+</footer>
+
+<!-- Footer Styles -->
+<style>
+    .app-footer {
+        margin-left: 250px;
+        padding: 30px 20px;
+        background: white;
+        border-top: 2px solid #f0f0f0;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .footer-left,
+    .footer-center,
+    .footer-right {
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .footer-left {
+        text-align: left;
+    }
+    
+    .footer-center {
+        text-align: center;
+    }
+    
+    .footer-right {
+        text-align: right;
+    }
+    
+    .copyright-text {
+        font-weight: 700;
+        color: #667eea;
+        font-size: 14px;
+    }
+    
+    .footer-links {
+        text-align: center;
+        padding-top: 15px;
+        border-top: 1px solid #f0f0f0;
+    }
+    
+    .footer-links a {
+        color: #7f8c8d;
+        text-decoration: none;
+        margin: 0 10px;
+        transition: all 0.3s;
+        font-size: 14px;
+    }
+    
+    .footer-links a:hover {
+        color: #667eea;
+        text-decoration: underline;
+    }
+    
+    .footer-links .separator {
+        color: #ddd;
+        margin: 0 5px;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .app-footer {
+            margin-left: 0;
+        }
+        
+        .footer-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .footer-left,
+        .footer-center,
+        .footer-right {
+            text-align: center;
+        }
+    }
+</style>
+
+<!-- Footer JavaScript -->
+<script>
+    // Set current year
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    function showAbout() {
+        alert('Personal Finance Manager v1.0.0\n\nAplikasi manajemen keuangan pribadi yang membantu Anda mengelola pemasukan, pengeluaran, dan aset dengan mudah.\n\nDeveloped for UAS Web Programming 1');
+    }
+    
+    function showHelp() {
+        const helpText = `Bantuan - Personal Finance Manager
+
+1. Dashboard: Lihat ringkasan keuangan Anda
+2. Transactions: Kelola transaksi (tambah, edit, hapus)
+3. Statistics: Lihat statistik & grafik keuangan
+4. Accounts: Kelola akun keuangan (cash, m-banking, e-wallet)
+5. Categories: Kelola kategori transaksi (income/expense)
+6. Calendar: Lihat transaksi dalam kalender
+7. Settings: Atur profil dan preferensi
+
+Untuk pertanyaan lebih lanjut, hubungi admin.`;
+        
+        alert(helpText);
+    }
+    
+    function showPrivacy() {
+        alert('Kebijakan Privasi\n\nData Anda disimpan dengan aman dan hanya digunakan untuk keperluan aplikasi ini. Kami tidak membagikan data Anda kepada pihak ketiga.');
+    }
+    
+    function showContact() {
+        alert('Kontak\n\nEmail: support@financemanager.com\nTelepon: +62 123 4567 8901\n\nAtau hubungi dosen pengampu mata kuliah.');
+    }
+</script>

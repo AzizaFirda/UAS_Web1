@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar - Personal Finance Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --primary-emerald: #10B981;
+            --primary-emerald-dark: #059669;
+            --secondary-emerald: #34D399;
+            --accent-brown: #8B4513;
+            --soft-brown: #D4A574;
+            --dark-grey: #2C3E50;
+            --medium-grey: #6B7280;
+            --light-grey: #F3F4F6;
+            --white: #FFFFFF;
+            --emerald-light: #D1FAE5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+            color: var(--dark-grey);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, var(--dark-grey) 0%, #34495E 50%, #5D6D7E 100%);
+            padding: 20px 0;
+            color: white;
+            z-index: 1000;
+            overflow-y: auto;
+            border-right: 4px solid var(--soft-brown);
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-brand {
+            padding: 0 20px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--soft-brown);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-brand i {
+            font-size: 2.5rem;
+            color: var(--soft-brown);
+            display: block;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .sidebar-brand h4 {
+            margin: 10px 0 0;
+            font-weight: 800;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 15px 25px;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+        
+        .sidebar-menu li a:hover {
+            background: rgba(212, 165, 116, 0.15);
+            color: var(--soft-brown);
+            padding-left: 35px;
+            border-left-color: var(--soft-brown);
+        }
+        
+        .sidebar-menu li a.active {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.2) 0%, transparent 100%);
+            color: var(--secondary-emerald);
+            border-left-color: var(--primary-emerald);
+            padding-left: 30px;
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px 25px;
+            min-height: 100vh;
+        }
+        
+        .main-content h3 {
+            font-weight: 800;
+            color: var(--dark-grey);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+        
+        .calendar-header {
+            background: linear-gradient(135deg, white 0%, #F9FAFB 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #E5E7EB;
+        }
+        
+        .calendar-header h5 {
+            font-weight: 700;
+            color: var(--dark-grey);
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+        }
+        
+        .calendar-container {
+            background: linear-gradient(135deg, white 0%, #F9FAFB 100%);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #E5E7EB;
+            border-top: 4px solid var(--primary-emerald);
+            transition: all 0.3s;
+        }
+        
+        .calendar-container:hover {
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.15);
+            transform: translateY(-5px);
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 700;
+            padding: 15px;
+            color: var(--primary-emerald);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            font-weight: 600;
+        }
+            transition: all 0.3s;
+            position: relative;
+            background: white;
+        }
+        
+        .calendar-day:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .calendar-day.other-month {
+            opacity: 0.3;
+        }
+        
+        .calendar-day.today {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .calendar-day.has-transaction {
+            border-color: #27ae60;
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(46, 204, 113, 0.1));
+        }
+        
+        .calendar-day-number {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .calendar-day-amount {
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .calendar-day-income {
+            color: #27ae60;
+        }
+        
+        .calendar-day-expense {
+            color: #e74c3c;
+        }
+        
+        .summary-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+        }
+        
+        .footer {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-wallet fa-3x"></i>
+            <h4>Finance Manager</h4>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i><span data-i18n="dashboard">Dashboard</span></a></li>
+            <li><a href="transaction.html"><i class="fas fa-exchange-alt"></i><span data-i18n="transactions">Transactions</span></a></li>
+            <li><a href="statistics.html"><i class="fas fa-chart-pie"></i><span data-i18n="statistics">Statistics</span></a></li>
+            <li><a href="accounts.html"><i class="fas fa-credit-card"></i><span data-i18n="accounts">Accounts</span></a></li>
+            <li><a href="settings.html"><i class="fas fa-cog"></i><span data-i18n="settings">Settings</span></a></li>
+        </ul>
+        
+        <!-- Sidebar Bottom: Language & Logout -->
+        <div class="sidebar-bottom">
+            <!-- Language Switcher -->
+            <div class="language-section">
+                <p>
+                    <i class="fas fa-globe"></i>
+                    <span data-i18n="language">Language</span>
+                </p>
+                <div class="language-buttons">
+                    <button class="lang-btn active" data-lang="id" onclick="changeLang('id')">
+                        🇮🇩 ID
+                    </button>
+                    <button class="lang-btn" data-lang="en" onclick="changeLang('en')">
+                        🇺🇸 EN
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Logout Button -->
+            <div class="logout-section">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span data-i18n="logout">Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h3 class="mb-4"><i class="fas fa-calendar me-2"></i>Kalender Transaksi</h3>
+        
+        <!-- Calendar Header -->
+        <div class="calendar-header">
+            <button class="btn btn-outline-primary" onclick="previousMonth()">
+                <i class="fas fa-chevron-left"></i> Sebelumnya
+            </button>
+            <div class="d-flex align-items-center gap-3">
+                <h4 class="mb-0 calendar-month-year" id="currentMonthYear"></h4>
+                <button class="btn btn-sm btn-outline-secondary" onclick="goToToday()" title="Bulan ini">
+                    <i class="fas fa-calendar-check"></i> Hari Ini
+                </button>
+            </div>
+            <button class="btn btn-outline-primary" onclick="nextMonth()">
+                Berikutnya <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        
+        <!-- Summary -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="summary-card">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 legend-icon-success">
+                            <i class="fas fa-arrow-down fa-2x text-success"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted">Pemasukan Bulan Ini</small>
+                            <h5 class="mb-0 text-success" id="monthIncome">Rp 0</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="summary-card">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 legend-icon-danger">
+                            <i class="fas fa-arrow-up fa-2x text-danger"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted">Pengeluaran Bulan Ini</small>
+                            <h5 class="mb-0 text-danger" id="monthExpense">Rp 0</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="summary-card">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 legend-icon-primary">
+                            <i class="fas fa-exchange-alt fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted">Total Transaksi</small>
+                            <h5 class="mb-0 text-primary" id="monthTransactions">0</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calendar -->
+        <div class="calendar-container">
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-box legend-box-purple"></div>
+                    <span>Hari Ini</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box legend-box-green"></div>
+                    <span>Ada Transaksi</span>
+                </div>
+            </div>
+            
+            <div class="calendar-grid">
+                <div class="calendar-day-header">Min</div>
+                <div class="calendar-day-header">Sen</div>
+                <div class="calendar-day-header">Sel</div>
+                <div class="calendar-day-header">Rab</div>
+                <div class="calendar-day-header">Kam</div>
+                <div class="calendar-day-header">Jum</div>
+                <div class="calendar-day-header">Sab</div>
+                
+                <div id="calendarDays"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <i class="fas fa-copyright me-2"></i><strong>Copyright by 23552011059_AzizaFirdaus_CNS-B_UASWEB1</strong>
+        </div>
+    </div>
+    <style>
+        .footer {
+            margin-left: var(--sidebar-width);
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 50%, #A7F3D0 100%);
+            border-top: 3px solid var(--primary-emerald);
+            font-weight: 600;
+            color: var(--primary-emerald-dark);
+            font-size: 0.95rem;
+            box-shadow: 0 -5px 20px rgba(16, 185, 129, 0.15);
+        }
+        
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.5px;
+            animation: fadeIn 0.8s ease-out;
+        }
+    </style>
+    
+    <!-- Day Detail Modal -->
+    <div class="modal fade" id="dayDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modal-header-calendar">
+                    <h5 class="modal-title" id="modalDate"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" title="Tutup dialog"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="dayTransactions">
+                        <p class="text-center text-muted">Memuat data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Get the correct base path dynamically
+        const currentPath = window.location.pathname;
+        const pathParts = currentPath.split('/');
+        let basePath = '';
+        
+        // Find the base path dynamically (everything up to 'frontend')
+        const frontendIndex = pathParts.indexOf('frontend');
+        if (frontendIndex > 0) {
+            basePath = pathParts.slice(0, frontendIndex).join('/');
+        }
+        
+        const API_URL = basePath + '/backend/api';
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let calendarData = {};
+        let modal;
+        
+        const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        
+        function formatCurrency(amount) {
+            return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
+        }
+        
+        function formatCurrencyShort(amount) {
+            if (amount >= 1000000000) {
+                return 'Rp ' + (amount / 1000000000).toFixed(1) + 'M';
+            } else if (amount >= 1000000) {
+                return 'Rp ' + (amount / 1000000).toFixed(1) + 'J';
+            } else if (amount >= 1000) {
+                return 'Rp ' + (amount / 1000).toFixed(1) + 'K';
+            }
+            return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
+        }
+        
+        async function checkAuth() {
+            try {
+                const response = await fetch(`${API_URL}/auth.php?action=check`);
+                const data = await response.json();
+                if (!data || !data.data || !data.data.authenticated) {
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                console.error('Auth check error:', error);
+                window.location.href = 'login.html';
+            }
+        }
+        
+        function updateHeader() {
+            document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+        }
+        
+        async function loadCalendar() {
+            updateHeader();
+            
+            const month = String(currentMonth + 1).padStart(2, '0');
+            const year = currentYear;
+            
+            try {
+                // Show loading state
+                document.getElementById('calendarDays').innerHTML = '<p class="text-center text-muted py-4">Memuat kalender...</p>';
+                
+                const response = await fetch(`${API_URL}/statistics.php?action=calendar&month=${month}&year=${year}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.message || 'Gagal memuat kalender');
+                }
+                
+                if (data.data && data.data.calendar) {
+                    calendarData = {};
+                    data.data.calendar.forEach(day => {
+                        calendarData[day.day] = day;
+                    });
+                    
+                    renderCalendar();
+                    updateMonthlySummary();
+                } else {
+                    throw new Error('Data kalender tidak valid');
+                }
+            } catch (error) {
+                console.error('Error loading calendar:', error);
+                document.getElementById('calendarDays').innerHTML = `<p class="text-center text-danger py-4"><i class="fas fa-exclamation-circle me-2"></i>Gagal memuat kalender: ${error.message}</p>`;
+            }
+        }
+        
+        function renderCalendar() {
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const prevLastDay = new Date(currentYear, currentMonth, 0);
+            
+            const firstDayOfWeek = firstDay.getDay();
+            const lastDateOfMonth = lastDay.getDate();
+            const prevLastDate = prevLastDay.getDate();
+            
+            const today = new Date();
+            const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+            const todayDate = today.getDate();
+            
+            let html = '';
+            
+            // Previous month days
+            for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+                const day = prevLastDate - i;
+                html += `<div class="calendar-day other-month">
+                    <div class="calendar-day-number">${day}</div>
+                </div>`;
+            }
+            
+            // Current month days
+            for (let day = 1; day <= lastDateOfMonth; day++) {
+                const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayData = calendarData[dateStr];
+                
+                let classes = 'calendar-day';
+                if (isCurrentMonth && day === todayDate) {
+                    classes += ' today';
+                }
+                if (dayData && dayData.transaction_count > 0) {
+                    classes += ' has-transaction';
+                }
+                
+                let content = `<div class="calendar-day-number">${day}</div>`;
+                
+                if (dayData) {
+                    if (dayData.income > 0) {
+                        content += `<div class="calendar-day-amount calendar-day-income">+${formatCurrencyShort(dayData.income)}</div>`;
+                    }
+                    if (dayData.expense > 0) {
+                        content += `<div class="calendar-day-amount calendar-day-expense">-${formatCurrencyShort(dayData.expense)}</div>`;
+                    }
+                }
+                
+                html += `<div class="${classes}" onclick="showDayDetail('${dateStr}')">${content}</div>`;
+            }
+            
+            // Next month days
+            const remainingDays = 42 - (firstDayOfWeek + lastDateOfMonth);
+            for (let day = 1; day <= remainingDays; day++) {
+                html += `<div class="calendar-day other-month">
+                    <div class="calendar-day-number">${day}</div>
+                </div>`;
+            }
+            
+            document.getElementById('calendarDays').innerHTML = html;
+        }
+        
+        function updateMonthlySummary() {
+            let totalIncome = 0;
+            let totalExpense = 0;
+            let totalTransactions = 0;
+            
+            Object.values(calendarData).forEach(day => {
+                totalIncome += parseFloat(day.income || 0);
+                totalExpense += parseFloat(day.expense || 0);
+                totalTransactions += parseInt(day.transaction_count || 0);
+            });
+            
+            document.getElementById('monthIncome').textContent = formatCurrency(totalIncome);
+            document.getElementById('monthExpense').textContent = formatCurrency(totalExpense);
+            document.getElementById('monthTransactions').textContent = totalTransactions;
+        }
+        
+        async function showDayDetail(dateStr) {
+            const dayData = calendarData[dateStr];
+            if (!dayData || dayData.transaction_count === 0) {
+                return;
+            }
+            
+            const date = new Date(dateStr);
+            document.getElementById('modalDate').textContent = date.toLocaleDateString('id-ID', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            document.getElementById('dayTransactions').innerHTML = '<p class="text-center text-muted">Memuat transaksi...</p>';
+            
+            try {
+                const response = await fetch(`${API_URL}/transactions.php?date_from=${dateStr}&date_to=${dateStr}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.message);
+                }
+                
+                if (data.data && data.data.transactions) {
+                    displayDayTransactions(data.data.transactions);
+                } else {
+                    displayDayTransactions([]);
+                }
+                
+                modal.show();
+            } catch (error) {
+                console.error('Error loading day transactions:', error);
+                document.getElementById('dayTransactions').innerHTML = `<p class="text-center text-danger"><i class="fas fa-exclamation-circle me-2"></i>Gagal memuat transaksi</p>`;
+            }
+        }
+        
+        function displayDayTransactions(transactions) {
+            const container = document.getElementById('dayTransactions');
+            
+            if (transactions.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted">Tidak ada transaksi</p>';
+                return;
+            }
+            
+            let html = '';
+            transactions.forEach(t => {
+                const typeClass = t.type === 'income' ? 'success' : (t.type === 'expense' ? 'danger' : 'primary');
+                const iconBg = t.type === 'income' ? 'rgba(39, 174, 96, 0.1)' : (t.type === 'expense' ? 'rgba(231, 76, 60, 0.1)' : 'rgba(52, 152, 219, 0.1)');
+                const timeStr = new Date(t.transaction_date + 'T' + (t.created_at || '00:00:00')).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                
+                html += `
+                    <div class="d-flex align-items-center p-3 mb-2 border-bottom">
+                        <div class="me-3" style="width: 50px; height: 50px; background: ${iconBg}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--${typeClass});">
+                            <i class="fas fa-${t.category_icon || 'exchange-alt'} fa-lg"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <strong>${t.category_name || 'Transfer'}</strong>
+                            <br><small class="text-muted">${t.account_name} • ${timeStr}</small>
+                            ${t.notes ? `<br><small class="text-muted">${t.notes}</small>` : ''}
+                        </div>
+                        <div class="text-${typeClass} fw-bold">
+                            ${t.type === 'expense' ? '-' : '+'} ${formatCurrency(t.amount)}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function previousMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            loadCalendar();
+        }
+        
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            loadCalendar();
+        }
+        
+        function goToToday() {
+            const today = new Date();
+            currentMonth = today.getMonth();
+            currentYear = today.getFullYear();
+            loadCalendar();
+        }
+        
+        async function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                await fetch(`${API_URL}/auth.php?action=logout`, { method: 'POST' });
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            modal = new bootstrap.Modal(document.getElementById('dayDetailModal'));
+            checkAuth();
+            loadCalendar();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - Personal Finance Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="../assets/js/translations.js"></script>
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --primary-emerald: #10B981;
+            --primary-emerald-dark: #059669;
+            --secondary-emerald: #34D399;
+            --accent-brown: #8B4513;
+            --soft-brown: #D4A574;
+            --light-brown: #F5E6D3;
+            --pink: #FFC0CB;
+            --soft-pink: #FFE4E9;
+            --rose: #FF69B4;
+            --dark-grey: #2C3E50;
+            --medium-grey: #6B7280;
+            --light-grey: #F3F4F6;
+            --white: #FFFFFF;
+            --emerald-light: #D1FAE5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+            color: var(--dark-grey);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, var(--dark-grey) 0%, #34495E 50%, #5D6D7E 100%);
+            padding: 20px 0;
+            color: white;
+            z-index: 1000;
+            border-right: 4px solid var(--soft-brown);
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-brand {
+            padding: 0 20px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--soft-brown);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-brand i {
+            font-size: 2.5rem;
+            color: var(--soft-brown);
+            display: block;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .sidebar-brand h4 {
+            margin: 10px 0 0;
+            font-weight: 800;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 0.5px;
+            font-size: 1.3rem;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 15px 25px;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+        
+        .sidebar-menu li a:hover {
+            background: rgba(212, 165, 116, 0.15);
+            color: var(--soft-brown);
+            padding-left: 35px;
+            border-left-color: var(--soft-brown);
+        }
+        
+        .sidebar-menu li a.active {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.2) 0%, transparent 100%);
+            color: var(--secondary-emerald);
+            border-left-color: var(--primary-emerald);
+            padding-left: 30px;
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 0 15px 15px;
+        }
+        
+        .language-section {
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+        
+        .language-section:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(212, 165, 116, 0.3);
+        }
+        
+        .language-section p {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .language-section p i {
+            margin-right: 6px;
+            font-size: 0.85rem;
+        }
+        
+        .language-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .lang-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--soft-brown);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+        }
+        
+        .lang-btn.active {
+            border-color: var(--soft-brown);
+            background: linear-gradient(135deg, var(--soft-brown) 0%, var(--accent-brown) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);
+        }
+        
+        .logout-section {
+            padding: 0;
+        }
+        
+        .logout-btn {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #EF4444;
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+        
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+            border-color: #DC2626;
+        }
+        
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px 25px;
+            min-height: 100vh;
+        }
+        
+        .main-content h3 {
+            font-weight: 800;
+            color: var(--dark-grey);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .category-card:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .category-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+        
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .category-details h5 {
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .category-details small {
+            color: var(--medium-grey);
+        }
+        
+        .category-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn-edit {
+            background: var(--primary-emerald);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-edit:hover {
+            background: var(--primary-emerald-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-delete {
+            background: #EF4444;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-delete:hover {
+            background: #DC2626;
+            transform: translateY(-2px);
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #E5E7EB;
+        }
+        
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            color: var(--medium-grey);
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-emerald);
+            border-bottom-color: var(--primary-emerald);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .btn-add-category {
+            background: var(--primary-emerald);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .btn-add-category:hover {
+            background: var(--primary-emerald-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .footer {
+            margin-left: var(--sidebar-width);
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 50%, #A7F3D0 100%);
+            border-top: 3px solid var(--primary-emerald);
+            font-weight: 600;
+            color: var(--primary-emerald-dark);
+            font-size: 0.95rem;
+            box-shadow: 0 -5px 20px rgba(16, 185, 129, 0.15);
+        }
+        
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.5px;
+            animation: fadeIn 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-wallet fa-3x"></i>
+            <h4>Finance Manager</h4>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i><span data-i18n="dashboard">Dashboard</span></a></li>
+            <li><a href="transaction.html"><i class="fas fa-exchange-alt"></i><span data-i18n="transactions">Transactions</span></a></li>
+            <li><a href="statistics.html"><i class="fas fa-chart-pie"></i><span data-i18n="statistics">Statistics</span></a></li>
+            <li><a href="accounts.html"><i class="fas fa-credit-card"></i><span data-i18n="accounts">Accounts</span></a></li>
+            <li><a href="settings.html"><i class="fas fa-cog"></i><span data-i18n="settings">Settings</span></a></li>
+        </ul>
+        
+        <!-- Sidebar Bottom: Language & Logout -->
+        <div class="sidebar-bottom">
+            <!-- Language Switcher -->
+            <div class="language-section">
+                <p>
+                    <i class="fas fa-globe"></i>
+                    <span data-i18n="language">Language</span>
+                </p>
+                <div class="language-buttons">
+                    <button class="lang-btn active" data-lang="id" onclick="changeLang('id')">
+                        🇮🇩 ID
+                    </button>
+                    <button class="lang-btn" data-lang="en" onclick="changeLang('en')">
+                        🇺🇸 EN
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Logout Button -->
+            <div class="logout-section">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span data-i18n="logout">Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h3><i class="fas fa-folder me-2"></i>Manage Categories</h3>
+        
+        <button class="btn-add-category" onclick="openAddCategoryModal()">
+            <i class="fas fa-plus me-2"></i>Add New Category
+        </button>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('income')">
+                <i class="fas fa-arrow-down me-2"></i>Income
+            </button>
+            <button class="tab-btn" onclick="switchTab('expense')">
+                <i class="fas fa-arrow-up me-2"></i>Expense
+            </button>
+        </div>
+        
+        <!-- Income Categories -->
+        <div class="tab-content active" id="income">
+            <div id="incomeCategories">
+                <p class="text-center text-muted">Loading...</p>
+            </div>
+        </div>
+        
+        <!-- Expense Categories -->
+        <div class="tab-content" id="expense">
+            <div id="expenseCategories">
+                <p class="text-center text-muted">Loading...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Category Modal -->
+    <div class="modal fade" id="categoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Add Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" title="Tutup dialog"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="categoryForm">
+                        <input type="hidden" id="categoryId">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="categoryName" placeholder="Nama kategori" title="Masukkan nama kategori" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Type</label>
+                            <select class="form-select" id="categoryType" title="Pilih tipe kategori" required>
+                                <option value="income">Income</option>
+                                <option value="expense">Expense</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Icon</label>
+                            <input type="text" class="form-control" id="categoryIcon" placeholder="e.g., briefcase, utensils">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Color</label>
+                            <input type="color" class="form-control color-input" id="categoryColor" value="#10B981" title="Pilih warna kategori">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">Save Category</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <i class="fas fa-copyright me-2"></i><strong>Copyright by 23552011059_AzizaFirdaus_CNS-B_UASWEB1</strong>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const currentPath = window.location.pathname;
+        const pathParts = currentPath.split('/');
+        let basePath = '';
+        
+        // Find the base path dynamically (everything up to 'frontend')
+        const frontendIndex = pathParts.indexOf('frontend');
+        if (frontendIndex > 0) {
+            basePath = pathParts.slice(0, frontendIndex).join('/');
+        }
+        
+        const API_URL = basePath + '/backend/api';
+        let currentType = 'income';
+        let modal;
+        
+        function formatCurrency(amount) {
+            return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
+        }
+        
+        async function checkAuth() {
+            try {
+                const response = await fetch(`${API_URL}/auth.php?action=check`);
+                const data = await response.json();
+                if (!data.data.authenticated) window.location.href = 'login.html';
+            } catch (error) {
+                window.location.href = 'login.html';
+            }
+        }
+        
+        function switchTab(type) {
+            currentType = type;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.closest('.tab-btn').classList.add('active');
+            document.getElementById(type).classList.add('active');
+            
+            loadCategories(type);
+        }
+        
+        async function loadCategories(type) {
+            try {
+                const response = await fetch(`${API_URL}/categories.php?action=list&type=${type}`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                if (!data.error) {
+                    const containerId = type === 'income' ? 'incomeCategories' : 'expenseCategories';
+                    const container = document.getElementById(containerId);
+                    
+                    if (data.data.categories.length === 0) {
+                        container.innerHTML = '<p class="text-center text-muted">No categories yet</p>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    data.data.categories.forEach(cat => {
+                        html += `
+                            <div class="category-card">
+                                <div class="category-info">
+                                    <div class="category-icon" style="background: ${cat.color}20; color: ${cat.color};">
+                                        <i class="fas fa-${cat.icon}"></i>
+                                    </div>
+                                    <div class="category-details">
+                                        <h5>${cat.name}</h5>
+                                        <small>${cat.type === 'income' ? 'Income' : 'Expense'}</small>
+                                    </div>
+                                </div>
+                                <div class="category-actions">
+                                    <button class="btn-sm btn-edit" onclick="editCategory(${cat.id}, '${cat.name}', '${cat.type}', '${cat.icon}', '${cat.color}')">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn-sm btn-delete" onclick="deleteCategory(${cat.id})">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    container.innerHTML = html;
+                } else {
+                    const containerId = type === 'income' ? 'incomeCategories' : 'expenseCategories';
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = '<p class="text-center text-danger">' + data.message + '</p>';
+                }
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                const containerId = type === 'income' ? 'incomeCategories' : 'expenseCategories';
+                const container = document.getElementById(containerId);
+                container.innerHTML = '<p class="text-center text-danger">Error loading categories</p>';
+            }
+        }
+        
+        function openAddCategoryModal() {
+            document.getElementById('categoryId').value = '';
+            document.getElementById('categoryName').value = '';
+            document.getElementById('categoryType').value = currentType;
+            document.getElementById('categoryIcon').value = '';
+            document.getElementById('categoryColor').value = '#10B981';
+            document.getElementById('modalTitle').textContent = 'Add Category';
+            modal.show();
+        }
+        
+        function editCategory(id, name, type, icon, color) {
+            document.getElementById('categoryId').value = id;
+            document.getElementById('categoryName').value = name;
+            document.getElementById('categoryType').value = type;
+            document.getElementById('categoryIcon').value = icon;
+            document.getElementById('categoryColor').value = color;
+            document.getElementById('modalTitle').textContent = 'Edit Category';
+            modal.show();
+        }
+        
+        async function deleteCategory(id) {
+            if (!confirm('Are you sure you want to delete this category?')) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/categories.php?id=${id}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                if (!data.error) {
+                    alert('Category deleted successfully');
+                    loadCategories(currentType);
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error deleting category:', error);
+            }
+        }
+        
+        document.getElementById('categoryForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const categoryId = document.getElementById('categoryId').value;
+            const name = document.getElementById('categoryName').value;
+            const type = document.getElementById('categoryType').value;
+            const icon = document.getElementById('categoryIcon').value;
+            const color = document.getElementById('categoryColor').value;
+            
+            try {
+                if (categoryId) {
+                    // Update existing category
+                    const body = {
+                        id: categoryId,
+                        name,
+                        type,
+                        icon: icon || 'circle',
+                        color
+                    };
+                    
+                    const response = await fetch(`${API_URL}/categories.php`, {
+                        method: 'PUT',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(body)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.error) {
+                        alert('Category updated successfully');
+                        modal.hide();
+                        loadCategories(type);
+                    } else {
+                        alert(data.message);
+                    }
+                } else {
+                    // Create new category
+                    const body = {
+                        name,
+                        type,
+                        icon: icon || 'circle',
+                        color
+                    };
+                    
+                    const response = await fetch(`${API_URL}/categories.php`, {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(body)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.error) {
+                        alert('Category created successfully');
+                        modal.hide();
+                        loadCategories(type);
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            } catch (error) {
+                console.error('Error saving category:', error);
+                alert('Error saving category');
+            }
+        });
+        
+        function changeLang(lang) {
+            if (langManager) {
+                langManager.setLanguage(lang);
+            }
+        }
+        
+        function logout() {
+            if (confirm('Logout?')) {
+                localStorage.removeItem('user_name');
+                window.location.href = 'login.html';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            checkAuth();
+            
+            // Initialize missing accounts (E-Wallet)
+            try {
+                await fetch(`${APP_CONFIG.API_URL}/auth.php?action=init-missing-accounts`, {
+                    credentials: 'include'
+                });
+            } catch (error) {
+                console.warn('Could not initialize missing accounts:', error);
+            }
+            
+            modal = new bootstrap.Modal(document.getElementById('categoryModal'));
+            loadCategories('income');
+        });
+    </script>
+</body>
+</html>
