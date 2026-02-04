@@ -3,9 +3,6 @@
 // Statistics Module - Charts & Reports
 // ========================================
 
-console.log('Statistics.js loading...');
-console.log('APP_CONFIG at load time:', typeof APP_CONFIG !== 'undefined' ? APP_CONFIG : 'NOT DEFINED');
-
 // Ensure APP_CONFIG is available (it should be loaded by app.js first)
 if (typeof APP_CONFIG === 'undefined') {
     console.error('APP_CONFIG not defined. Make sure app.js is loaded first.');
@@ -73,7 +70,6 @@ const Statistics = {
     loadOverview: async function() {
         try {
             const url = `${APP_CONFIG.API_URL}/statistics.php?action=overview&month=${this.currentFilters.month}&year=${this.currentFilters.year}`;
-            console.log('Loading overview from:', url);
             const response = await fetch(url, {
                 credentials: 'include'
             });
@@ -124,7 +120,6 @@ const Statistics = {
     loadCategoryStats: async function() {
         try {
             const url = `${APP_CONFIG.API_URL}/statistics.php?action=category&month=${this.currentFilters.month}&year=${this.currentFilters.year}&type=expense`;
-            console.log('Loading category stats from:', url);
             const response = await fetch(url, {
                 credentials: 'include'
             });
@@ -623,5 +618,3 @@ window.Statistics = Statistics;
 window.loadStatistics = loadStatistics;
 window.exportReport = exportReport;
 window.logout = logout;
-
-console.log('✅ Statistics.js loaded successfully');

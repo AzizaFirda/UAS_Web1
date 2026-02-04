@@ -160,16 +160,12 @@ function handlePut($userId) {
     $action = $_GET['action'] ?? 'update';
     $rawInput = file_get_contents('php://input');
     
-    error_log("handlePut: action=$action, userId=$userId, rawInput=$rawInput");
-    
     $data = json_decode($rawInput, true);
     
     if (json_last_error() !== JSON_ERROR_NONE) {
         sendError('Invalid JSON: ' . json_last_error_msg());
         return;
     }
-    
-    error_log("handlePut: decoded data=" . json_encode($data));
     
     if ($action === 'update') {
         $db = getDB();
@@ -192,7 +188,6 @@ function handlePut($userId) {
         }
         
         $sql = "UPDATE users SET " . implode(', ', $fields) . " WHERE id = :user_id";
-        error_log("handlePut UPDATE: sql=$sql, params=" . json_encode($params));
         
         try {
             $stmt = $db->prepare($sql);
@@ -200,7 +195,6 @@ function handlePut($userId) {
             
             sendSuccess(null, 'User updated successfully');
         } catch (Exception $e) {
-            error_log("handlePut UPDATE ERROR: " . $e->getMessage());
             sendError($e->getMessage());
         }
     } 

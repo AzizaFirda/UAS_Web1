@@ -21,18 +21,12 @@ class AuthMiddleware {
             ]);
             
             session_start();
-            
-            // Debug logging
-            error_log("Session started - ID: " . session_id() . ", has_user_id: " . (isset($_SESSION['user_id']) ? 'YES' : 'NO'));
         }
     }
     
     public static function check() {
         self::init();
         $isValid = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
-        
-        // Debug logging
-        error_log("Session check - user_id: " . ($_SESSION['user_id'] ?? 'NOT SET') . ", valid: " . ($isValid ? 'YES' : 'NO'));
         
         return $isValid;
     }
@@ -61,9 +55,6 @@ class AuthMiddleware {
             'theme' => $user['theme'] ?? 'light'
         ];
         $_SESSION['login_time'] = time();
-        
-        // Debug logging
-        error_log("User logged in - ID: " . $user['id'] . ", Session ID: " . session_id() . ", Session data: " . json_encode($_SESSION));
         
         // Set cookie untuk remember me (optional, 30 hari)
         // Don't set domain - let browser auto-detect

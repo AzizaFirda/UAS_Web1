@@ -130,14 +130,12 @@ function handleRegister($userModel) {
 function handleLogin($userModel) {
     try {
         $data = json_decode(file_get_contents('php://input'), true);
-        error_log("Login attempt: email=" . ($data['email'] ?? 'NOT SET'));
         
         if (empty($data['email']) || empty($data['password'])) {
             sendError('Email and password are required');
         }
         
         $user = $userModel->findByEmail($data['email']);
-        error_log("User found: " . ($user ? 'YES (id=' . $user['id'] . ')' : 'NO'));
         
         if (!$user || !$userModel->verifyPassword($data['password'], $user['password'])) {
             sendError('Invalid email or password', 401);
@@ -145,11 +143,8 @@ function handleLogin($userModel) {
         
         // Login user
         try {
-            error_log("Calling AuthMiddleware::login for user_id=" . $user['id']);
             AuthMiddleware::login($user);
-            error_log("Login successful for user_id=" . $user['id']);
         } catch (Exception $authEx) {
-            error_log("AuthMiddleware error: " . $authEx->getMessage());
             sendError('Login failed: ' . $authEx->getMessage(), 500);
         }
         

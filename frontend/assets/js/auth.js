@@ -188,5 +188,3 @@ const Auth = {
 
 // Make available globally
 window.Auth = Auth;
-
-console.log("✅ Auth.js loaded successfully");

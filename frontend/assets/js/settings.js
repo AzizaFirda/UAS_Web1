@@ -221,5 +221,3 @@ const Settings = {
 
 // Make available globally
 window.Settings = Settings;
-
-console.log('✅ Settings.js loaded successfully');

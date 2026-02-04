@@ -255,5 +255,3 @@ const Dashboard = {
 
 // Make available globally
 window.Dashboard = Dashboard;
-
-console.log("✅ Dashboard.js loaded successfully");

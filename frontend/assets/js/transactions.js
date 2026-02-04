@@ -277,5 +277,3 @@ const Transactions = {
 
 // Make available globally
 window.Transactions = Transactions;
-
-console.log("✅ Transactions.js loaded successfully");

@@ -6,17 +6,13 @@
 // ==================== CONFIGURATION ====================
 // Get the correct base path dynamically
 const currentPath = window.location.pathname;
-console.log("currentPath:", currentPath);
-
 const pathParts = currentPath.split("/").filter((p) => p.length > 0);
-console.log("pathParts:", pathParts);
 
 let basePath = "";
 let apiUrl = "/backend/api"; // Default to root-level backend
 
 // Find the base path dynamically (everything up to 'frontend')
 const frontendIndex = pathParts.indexOf("frontend");
-console.log("frontendIndex:", frontendIndex);
 
 // For production (pipil.my.id), always use /backend/api from root
 // For localhost with nested structure, adjust accordingly
@@ -30,9 +26,6 @@ if (frontendIndex > 0 && window.location.hostname === "localhost") {
   apiUrl = "/backend/api";
 }
 
-console.log("basePath:", basePath);
-console.log("apiUrl:", apiUrl);
-
 const APP_CONFIG = {
   API_URL: apiUrl,
   APP_NAME: "Personal Finance Manager",
@@ -41,8 +34,6 @@ const APP_CONFIG = {
   DATE_FORMAT: "DD/MM/YYYY",
   TIMEZONE: "Asia/Jakarta",
 };
-
-console.log("APP_CONFIG.API_URL:", APP_CONFIG.API_URL);
 
 // ==================== GLOBAL STATE ====================
 const AppState = {
