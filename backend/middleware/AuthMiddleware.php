@@ -11,10 +11,10 @@ class AuthMiddleware {
             ini_set('session.cookie_samesite', 'Lax');
             
             // Set session cookie path to root
+            // Don't set domain - let browser handle it automatically
             session_set_cookie_params([
                 'lifetime' => 86400, // 24 hours
                 'path' => '/',
-                'domain' => $_SERVER['HTTP_HOST'] ?? '',
                 'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
                 'httponly' => true,
                 'samesite' => 'Lax'
@@ -22,11 +22,8 @@ class AuthMiddleware {
             
             session_start();
             
-            // Regenerate session ID for security (but not on every request)
-            if (!isset($_SESSION['initiated'])) {
-                session_regenerate_id(true);
-                $_SESSION['initiated'] = true;
-            }
+            // Debug logging
+            error_log("Session started - ID: " . session_id() . ", has_user_id: " . (isset($_SESSION['user_id']) ? 'YES' : 'NO'));
         }
     }
     
@@ -53,10 +50,7 @@ class AuthMiddleware {
     public static function login($user) {
         self::init();
         
-        // Clear any previous session data
-        $_SESSION = array();
-        
-        // Set new session data
+        // Set session data
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user'] = [
             'id' => $user['id'],
@@ -68,18 +62,14 @@ class AuthMiddleware {
         ];
         $_SESSION['login_time'] = time();
         
-        // Force session write
-        session_write_close();
-        session_start();
-        
         // Debug logging
-        error_log("User logged in - ID: " . $user['id'] . ", Session ID: " . session_id());
+        error_log("User logged in - ID: " . $user['id'] . ", Session ID: " . session_id() . ", Session data: " . json_encode($_SESSION));
         
         // Set cookie untuk remember me (optional, 30 hari)
+        // Don't set domain - let browser auto-detect
         @setcookie('user_token', base64_encode($user['id']), [
             'expires' => time() + (86400 * 30),
             'path' => '/',
-            'domain' => $_SERVER['HTTP_HOST'] ?? '',
             'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
             'httponly' => true,
             'samesite' => 'Lax'
