@@ -1,18 +1,15 @@
 # Finance Manager - Main .htaccess
-# Redirect to Finance Manager landing or login page
 
-DirectoryIndex frontend/landing.html frontend/pages/login.html index.php index.html
+DirectoryIndex index.php index.html
 
-# Rewrite rules for clean URLs
+# Rewrite rules
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
     
-    # If accessing root, redirect to login page
-    RewriteRule ^$ /frontend/pages/login.html [L]
-    
-    # If accessing index.html, redirect to login
-    RewriteRule ^index\.html$ /frontend/pages/login.html [L,R=301]
+    # Force HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
 
 # Security headers
