@@ -12,18 +12,20 @@ const pathParts = currentPath.split("/").filter((p) => p.length > 0);
 console.log("pathParts:", pathParts);
 
 let basePath = "";
-let apiUrl = "/backend/api";
+let apiUrl = "/backend/api"; // Default to root-level backend
 
 // Find the base path dynamically (everything up to 'frontend')
 const frontendIndex = pathParts.indexOf("frontend");
 console.log("frontendIndex:", frontendIndex);
 
-if (frontendIndex > 0) {
+// For production (pipil.my.id), always use /backend/api from root
+// For localhost with nested structure, adjust accordingly
+if (frontendIndex > 0 && window.location.hostname === "localhost") {
+  // Only apply nested path for localhost development
   basePath = "/" + pathParts.slice(0, frontendIndex).join("/");
   apiUrl = basePath + "/backend/api";
 } else {
-  // Fallback: if 'frontend' at root, basePath is empty
-  // API is at /backend/api from document root
+  // Production: Always use /backend/api from document root
   basePath = "";
   apiUrl = "/backend/api";
 }
