@@ -1,0 +1,33 @@
+# Finance Manager - Main .htaccess
+# Redirect to Finance Manager landing or login page
+
+DirectoryIndex frontend/landing.html frontend/pages/login.html index.php index.html
+
+# Rewrite rules for clean URLs
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # If accessing root, redirect to login page
+    RewriteRule ^$ /frontend/pages/login.html [L]
+    
+    # If accessing index.html, redirect to login
+    RewriteRule ^index\.html$ /frontend/pages/login.html [L,R=301]
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Enable CORS for API
+<FilesMatch "\.(php)$">
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*"
+        Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+        Header set Access-Control-Allow-Credentials "true"
+    </IfModule>
+</FilesMatch>
