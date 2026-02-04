@@ -52,19 +52,14 @@ if (!function_exists('sendSuccess') || !function_exists('sendError')) {
 }
 
 header('Content-Type: application/json');
-
-// Handle CORS
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if (strpos($origin, 'localhost') !== false || strpos($origin, '127.0.0.1') !== false) {
-    header('Access-Control-Allow-Origin: ' . $origin);
-}
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Access-Control-Allow-Credentials: true');
+setCORSHeaders();
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
+
+// Start session for authentication
+AuthMiddleware::init();
 
 $action = $_GET['action'] ?? '';
 

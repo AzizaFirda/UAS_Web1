@@ -2,6 +2,18 @@
 // backend/config/database.php
 
 // Helper functions - MUST be defined BEFORE class to ensure they always load
+function setCORSHeaders() {
+    $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+    if ($origin) {
+        header('Access-Control-Allow-Origin: ' . $origin);
+    } else {
+        header('Access-Control-Allow-Origin: *');
+    }
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization');
+    header('Access-Control-Allow-Credentials: true');
+}
+
 function sendJSON($data, $statusCode = 200) {
     while (ob_get_level()) {
         ob_end_clean();
