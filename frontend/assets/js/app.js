@@ -12,6 +12,7 @@ const pathParts = currentPath.split("/").filter((p) => p.length > 0);
 console.log("pathParts:", pathParts);
 
 let basePath = "";
+let apiUrl = "/backend/api";
 
 // Find the base path dynamically (everything up to 'frontend')
 const frontendIndex = pathParts.indexOf("frontend");
@@ -19,21 +20,19 @@ console.log("frontendIndex:", frontendIndex);
 
 if (frontendIndex > 0) {
   basePath = "/" + pathParts.slice(0, frontendIndex).join("/");
+  apiUrl = basePath + "/backend/api";
 } else {
-  // Fallback: if 'frontend' not found, check if it's at least one level deep
-  if (
-    pathParts.length > 1 &&
-    pathParts[0] !== "backend" &&
-    pathParts[0] !== "pages"
-  ) {
-    basePath = "/" + pathParts[0];
-  }
+  // Fallback: if 'frontend' at root, basePath is empty
+  // API is at /backend/api from document root
+  basePath = "";
+  apiUrl = "/backend/api";
 }
 
 console.log("basePath:", basePath);
+console.log("apiUrl:", apiUrl);
 
 const APP_CONFIG = {
-  API_URL: basePath + "/backend/api",
+  API_URL: apiUrl,
   APP_NAME: "Personal Finance Manager",
   VERSION: "1.0.0",
   CURRENCY: "IDR",
