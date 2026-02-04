@@ -1,0 +1,174 @@
+# 🚀 Finance Manager - Quick Start Guide
+
+## Dalam 5 Menit
+
+### Step 1: Database (1 min)
+```
+1. Buka http://localhost/phpmyadmin
+2. Klik "New" → Nama: finance_manager → Create
+3. Pilih database → Tab "SQL"
+4. Buka database.sql → Copy semua → Paste → Go
+```
+
+### Step 2: Folder (1 min)
+```
+Copy folder "Finance Manager Web" ke:
+C:\xampp\htdocs\
+```
+
+### Step 3: Services (1 min)
+```
+XAMPP Control Panel:
+- Start Apache ✓
+- Start MySQL ✓
+```
+
+### Step 4: Test (1 min)
+```
+Buka browser:
+http://localhost/Finance%20Manager%20Web/
+```
+
+### Step 5: Register (1 min)
+```
+1. Klik Register
+2. Input: name, email, password
+3. Klik Register
+4. Login dengan akun baru
+```
+
+## File Penting
+
+| File | Untuk |
+|------|-------|
+| `database.sql` | Database schema |
+| `backend/config/database.php` | Database config |
+| `index.php` | Entry point |
+| `SETUP.md` | Panduan detail |
+| `CHECKLIST.md` | Verifikasi |
+| `TROUBLESHOOTING.md` | Solusi masalah |
+
+## Default Credentials (XAMPP)
+
+```
+Database Host: localhost
+Username: root
+Password: (kosong)
+Database: finance_manager
+```
+
+## Common Errors
+
+### "Connection Error"
+→ MySQL belum running atau database belum dibuat
+
+### "404 Not Found"
+→ Folder di tempat yang salah atau file path error
+
+### "Unauthorized"
+→ Clear cookies atau login lagi
+
+### "Blank Page"
+→ Buka F12 → Console → lihat error
+
+## Links
+
+- Dashboard: `http://localhost/Finance%20Manager%20Web/frontend/pages/dashboard.html`
+- PhpMyAdmin: `http://localhost/phpmyadmin`
+- XAMPP Control: Windows Start Menu → XAMPP Control Panel
+
+## Database Tables
+
+```
+users          → User accounts
+accounts       → Bank/cash/wallet accounts
+categories     → Income/expense categories
+transactions   → All income/expense records
+budgets        → Budget planning
+reports        → Saved reports
+goals          → Financial goals
+```
+
+## API Endpoints
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/backend/api/auth.php?action=login` | Login |
+| POST | `/backend/api/auth.php?action=register` | Register |
+| POST | `/backend/api/auth.php?action=logout` | Logout |
+| GET | `/backend/api/accounts.php?action=list` | Get accounts |
+| GET | `/backend/api/transactions.php` | Get transactions |
+| GET | `/backend/api/categories.php?action=list` | Get categories |
+| GET | `/backend/api/statistics.php?action=overview` | Get statistics |
+
+## Features
+
+✅ User authentication (register & login)
+✅ Account management (cash, bank, e-wallet, debt)
+✅ Transaction tracking (income, expense, transfer)
+✅ Category management & tracking
+✅ Budget planning & alerts
+✅ Financial statistics & reports
+✅ Dashboard overview
+✅ Responsive design
+
+## Next Steps
+
+1. ✓ Database setup (SELESAI - lihat database.sql)
+2. ✓ API endpoints (SELESAI - sudah diperbaiki semua)
+3. ✓ Documentation (SELESAI - SETUP.md, CHECKLIST.md, TROUBLESHOOTING.md)
+4. → Jalankan setup sesuai 5 langkah di atas
+5. → Test semua features
+6. → Customize sesuai kebutuhan
+
+## Folder Structure
+
+```
+Finance Manager Web/
+├── index.php                    # Main entry
+├── database.sql                 # Database schema ⭐
+├── SETUP.md                     # Setup guide ⭐
+├── CHECKLIST.md                 # Verification checklist ⭐
+├── TROUBLESHOOTING.md           # Error solutions ⭐
+├── backend/
+│   ├── api/                     # REST API endpoints
+│   ├── config/                  # Database config
+│   ├── controllers/             # Business logic
+│   ├── middleware/              # Auth middleware
+│   └── models/                  # Database models
+└── frontend/
+    ├── assets/
+    │   ├── css/                 # Styling
+    │   ├── js/                  # JavaScript logic
+    │   └── img/                 # Images
+    ├── components/              # Reusable HTML
+    └── pages/                   # Main pages
+```
+
+## Tips
+
+1. **First Time?**
+   → Baca SETUP.md lengkap dulu
+
+2. **Ada Error?**
+   → Check TROUBLESHOOTING.md
+
+3. **Mau Verifikasi?**
+   → Gunakan checklist di CHECKLIST.md
+
+4. **Butuh Bantuan?**
+   → Lihat file TROUBLESHOOTING.md atau debugging section
+
+## Contact & Support
+
+Untuk error atau pertanyaan:
+1. Check browser console (F12)
+2. Check TROUBLESHOOTING.md
+3. Check XAMPP error logs
+4. Check database di PhpMyAdmin
+
+---
+
+**Siap?** Mulai setup sekarang! 🎉
+
+[→ Buka SETUP.md untuk panduan lengkap](SETUP.md)

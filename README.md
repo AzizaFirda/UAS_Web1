@@ -1,174 +1,111 @@
-# 🚀 Finance Manager - Quick Start Guide
+# Personal Finance Manager
 
-## Dalam 5 Menit
+Aplikasi manajemen keuangan pribadi berbasis web untuk mengelola transaksi, budget, dan laporan keuangan.
 
-### Step 1: Database (1 min)
-```
-1. Buka http://localhost/phpmyadmin
-2. Klik "New" → Nama: finance_manager → Create
-3. Pilih database → Tab "SQL"
-4. Buka database.sql → Copy semua → Paste → Go
-```
+## 🚀 Live Demo
 
-### Step 2: Folder (1 min)
-```
-Copy folder "Finance Manager Web" ke:
-C:\xampp\htdocs\
-```
+**URL:** https://pipil.my.id
 
-### Step 3: Services (1 min)
-```
-XAMPP Control Panel:
-- Start Apache ✓
-- Start MySQL ✓
-```
+## 📋 Fitur
 
-### Step 4: Test (1 min)
-```
-Buka browser:
-http://localhost/Finance%20Manager%20Web/
-```
+- ✅ Autentikasi User (Login/Register)
+- ✅ Dashboard Overview
+- ✅ Manajemen Transaksi (Income/Expense)
+- ✅ Manajemen Akun
+- ✅ Manajemen Kategori
+- ✅ Statistik & Charts
+- ✅ Export Reports (PDF/Excel)
+- ✅ Multi-bahasa (ID/EN)
+- ✅ Tema Light/Dark
 
-### Step 5: Register (1 min)
-```
-1. Klik Register
-2. Input: name, email, password
-3. Klik Register
-4. Login dengan akun baru
-```
+## 🛠️ Tech Stack
 
-## File Penting
+- **Frontend:** HTML5, CSS3, JavaScript (Vanilla), Chart.js
+- **Backend:** PHP 7.4+ (Native MVC)
+- **Database:** MySQL/MariaDB
+- **Server:** LiteSpeed (Anymhost)
 
-| File | Untuk |
-|------|-------|
-| `database.sql` | Database schema |
-| `backend/config/database.php` | Database config |
-| `index.php` | Entry point |
-| `SETUP.md` | Panduan detail |
-| `CHECKLIST.md` | Verifikasi |
-| `TROUBLESHOOTING.md` | Solusi masalah |
-
-## Default Credentials (XAMPP)
+## 📂 Struktur Project
 
 ```
-Database Host: localhost
-Username: root
-Password: (kosong)
-Database: finance_manager
-```
-
-## Common Errors
-
-### "Connection Error"
-→ MySQL belum running atau database belum dibuat
-
-### "404 Not Found"
-→ Folder di tempat yang salah atau file path error
-
-### "Unauthorized"
-→ Clear cookies atau login lagi
-
-### "Blank Page"
-→ Buka F12 → Console → lihat error
-
-## Links
-
-- Dashboard: `http://localhost/Finance%20Manager%20Web/frontend/pages/dashboard.html`
-- PhpMyAdmin: `http://localhost/phpmyadmin`
-- XAMPP Control: Windows Start Menu → XAMPP Control Panel
-
-## Database Tables
+FinanceManagerWeb/
+├── backend/           # Backend API & Logic
+│   ├── api/          # REST API endpoints
+│   ├── config/       # Database config
+│   ├── controllers/  # Business logic
+│   ├── middleware/   # Auth middleware
+│   └── models/       # Data models
+├── frontend/         # Frontend assets
+│   ├── assets/       # CSS, JS, Images
+│   ├── components/   # Reusable components
+│   └── pages/        # HTML pages
+├── uploads/          # User uploads
+├── docs/             # Dokumentasi
+└── database.sql      # Database schema
 
 ```
-users          → User accounts
-accounts       → Bank/cash/wallet accounts
-categories     → Income/expense categories
-transactions   → All income/expense records
-budgets        → Budget planning
-reports        → Saved reports
-goals          → Financial goals
+
+## 📖 Dokumentasi
+
+Dokumentasi lengkap tersedia di folder [`docs/`](docs/):
+
+- [Laporan Bug & Penyelesaian](docs/LAPORAN-BUG-DAN-PENYELESAIAN.md)
+- [Deployment Guide](docs/DEPLOYMENT.md)
+- [Audit Summary](docs/AUDIT-SUMMARY.md)
+- [Project README](docs/README-PROJECT.md)
+
+## 🔐 Database Setup
+
+1. Import `database.sql` ke MySQL
+2. Update kredensial di `backend/config/database.php`
+3. Jalankan aplikasi
+
+## 👤 Default Login
+
+Setelah import database, gunakan:
+
+- **Email:** user@example.com
+- **Password:** password123
+
+## 📦 Installation
+
+### Local Development
+
+```bash
+# Clone repository
+git clone https://github.com/AzizaFirda/UAS_Web1.git
+
+# Setup database
+mysql -u root -p < database.sql
+
+# Configure database
+cp backend/config/database.example.php backend/config/database.php
+# Edit database.php dengan kredensial Anda
+
+# Run dengan PHP built-in server
+php -S localhost:8000
 ```
 
-## API Endpoints
+### Production Deployment
 
-| Method | Path | Purpose |
-|--------|------|---------|
-| POST | `/backend/api/auth.php?action=login` | Login |
-| POST | `/backend/api/auth.php?action=register` | Register |
-| POST | `/backend/api/auth.php?action=logout` | Logout |
-| GET | `/backend/api/accounts.php?action=list` | Get accounts |
-| GET | `/backend/api/transactions.php` | Get transactions |
-| GET | `/backend/api/categories.php?action=list` | Get categories |
-| GET | `/backend/api/statistics.php?action=overview` | Get statistics |
+Lihat [Deployment Guide](docs/DEPLOYMENT.md)
 
-## Features
+## 🤝 Contributing
 
-✅ User authentication (register & login)
-✅ Account management (cash, bank, e-wallet, debt)
-✅ Transaction tracking (income, expense, transfer)
-✅ Category management & tracking
-✅ Budget planning & alerts
-✅ Financial statistics & reports
-✅ Dashboard overview
-✅ Responsive design
+Pull requests are welcome!
 
-## Next Steps
+## 📝 License
 
-1. ✓ Database setup (SELESAI - lihat database.sql)
-2. ✓ API endpoints (SELESAI - sudah diperbaiki semua)
-3. ✓ Documentation (SELESAI - SETUP.md, CHECKLIST.md, TROUBLESHOOTING.md)
-4. → Jalankan setup sesuai 5 langkah di atas
-5. → Test semua features
-6. → Customize sesuai kebutuhan
+Dibuat untuk UAS Web Programming 1
 
-## Folder Structure
+## 👨‍💻 Developer
 
-```
-Finance Manager Web/
-├── index.php                    # Main entry
-├── database.sql                 # Database schema ⭐
-├── SETUP.md                     # Setup guide ⭐
-├── CHECKLIST.md                 # Verification checklist ⭐
-├── TROUBLESHOOTING.md           # Error solutions ⭐
-├── backend/
-│   ├── api/                     # REST API endpoints
-│   ├── config/                  # Database config
-│   ├── controllers/             # Business logic
-│   ├── middleware/              # Auth middleware
-│   └── models/                  # Database models
-└── frontend/
-    ├── assets/
-    │   ├── css/                 # Styling
-    │   ├── js/                  # JavaScript logic
-    │   └── img/                 # Images
-    ├── components/              # Reusable HTML
-    └── pages/                   # Main pages
-```
+**Aziza Firda**
 
-## Tips
-
-1. **First Time?**
-   → Baca SETUP.md lengkap dulu
-
-2. **Ada Error?**
-   → Check TROUBLESHOOTING.md
-
-3. **Mau Verifikasi?**
-   → Gunakan checklist di CHECKLIST.md
-
-4. **Butuh Bantuan?**
-   → Lihat file TROUBLESHOOTING.md atau debugging section
-
-## Contact & Support
-
-Untuk error atau pertanyaan:
-1. Check browser console (F12)
-2. Check TROUBLESHOOTING.md
-3. Check XAMPP error logs
-4. Check database di PhpMyAdmin
+- GitHub: [@AzizaFirda](https://github.com/AzizaFirda)
+- Email: -
 
 ---
 
-**Siap?** Mulai setup sekarang! 🎉
-
-[→ Buka SETUP.md untuk panduan lengkap](SETUP.md)
+**Version:** 1.0.0  
+**Last Updated:** 4 Februari 2026
