@@ -13,7 +13,7 @@ const Transactions = {
     try {
       this.currentFilters = filters;
 
-      let url = "/backend/api/transactions.php?";
+      let url = `${APP_CONFIG.API_URL}/transactions.php?`;
 
       if (filters.type) url += `type=${filters.type}&`;
       if (filters.account_id) url += `account_id=${filters.account_id}&`;
@@ -43,9 +43,12 @@ const Transactions = {
    */
   getById: async function (id) {
     try {
-      const response = await fetch(`/backend/api/transactions.php?id=${id}`, {
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${APP_CONFIG.API_URL}/transactions.php?id=${id}`,
+        {
+          credentials: "include",
+        },
+      );
       const data = await response.json();
 
       if (data.error) {
@@ -66,7 +69,7 @@ const Transactions = {
     try {
       showLoading("Menyimpan transaksi...");
 
-      const response = await fetch("/backend/api/transactions.php", {
+      const response = await fetch(`${APP_CONFIG.API_URL}/transactions.php`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,14 +101,17 @@ const Transactions = {
     try {
       showLoading("Mengupdate transaksi...");
 
-      const response = await fetch(`/backend/api/transactions.php?id=${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${APP_CONFIG.API_URL}/transactions.php?id=${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(transactionData),
         },
-        credentials: "include",
-        body: JSON.stringify(transactionData),
-      });
+      );
 
       const data = await response.json();
       hideLoading();
@@ -135,7 +141,7 @@ const Transactions = {
             showLoading("Menghapus transaksi...");
 
             const response = await fetch(
-              `/backend/api/transactions.php?id=${id}`,
+              `${APP_CONFIG.API_URL}/transactions.php?id=${id}`,
               {
                 method: "DELETE",
                 credentials: "include",
