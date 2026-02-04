@@ -95,7 +95,7 @@ Proyek ini bertujuan untuk mendigitalkan proses pengelolaan keuangan pribadi aga
 
 ## VIDEO DEMO
 
-[Klik untuk melihat demo video](frontend/assets/img/demo.mp4)
+![Demo](frontend/assets/img/demo.gif)
 
 
 ---
