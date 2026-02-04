@@ -880,22 +880,46 @@
     <script src="../assets/js/statistics.js"></script>
     <script>
       // Use API_URL from app.js (APP_CONFIG.API_URL)
-      const API_URL = APP_CONFIG.API_URL;
+      // Check if APP_CONFIG is defined
+      if (typeof APP_CONFIG === "undefined") {
+        console.error("APP_CONFIG not defined! app.js may not have loaded.");
+        alert(
+          "Error: Application configuration not loaded. Please refresh the page.",
+        );
+      }
+
+      const API_URL =
+        typeof APP_CONFIG !== "undefined" ? APP_CONFIG.API_URL : "/backend/api";
 
       /**
        * Check authentication and initialize
        */
       async function checkAuth() {
         try {
+          console.log("Checking authentication with:", API_URL);
           const response = await fetch(`${API_URL}/auth.php?action=check`, {
             credentials: "include",
           });
+
+          if (!response.ok) {
+            console.error("Auth check response not OK:", response.status);
+            throw new Error(`HTTP ${response.status}`);
+          }
+
           const data = await response.json();
-          if (!data.data.authenticated) {
-            window.location.href = "login.html";
+          console.log("Auth check result:", data);
+
+          if (!data.data || !data.data.authenticated) {
+            console.warn("User not authenticated, redirecting to login");
+            setTimeout(() => {
+              window.location.href = "login.html";
+            }, 500);
           }
         } catch (error) {
-          window.location.href = "login.html";
+          console.error("Auth check failed:", error);
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 500);
         }
       }
 

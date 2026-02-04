@@ -1,753 +1,957 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Transactions - Personal Finance Manager</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <script src="../assets/js/translations.js"></script>
     <style>
-        :root {
-            --sidebar-width: 250px;
-            --primary-emerald: #10B981;
-            --primary-emerald-dark: #059669;
-            --secondary-emerald: #34D399;
-            --accent-brown: #8B4513;
-            --soft-brown: #D4A574;
-            --light-brown: #F5E6D3;
-            --pink: #FFC0CB;
-            --soft-pink: #FFE4E9;
-            --rose: #FF69B4;
-            --dark-grey: #2C3E50;
-            --medium-grey: #6B7280;
-            --light-grey: #F3F4F6;
-            --white: #FFFFFF;
-            --emerald-light: #D1FAE5;
+      :root {
+        --sidebar-width: 250px;
+        --primary-emerald: #10b981;
+        --primary-emerald-dark: #059669;
+        --secondary-emerald: #34d399;
+        --accent-brown: #8b4513;
+        --soft-brown: #d4a574;
+        --light-brown: #f5e6d3;
+        --pink: #ffc0cb;
+        --soft-pink: #ffe4e9;
+        --rose: #ff69b4;
+        --dark-grey: #2c3e50;
+        --medium-grey: #6b7280;
+        --light-grey: #f3f4f6;
+        --white: #ffffff;
+        --emerald-light: #d1fae5;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        color: var(--dark-grey);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: var(--sidebar-width);
+        background: linear-gradient(
+          135deg,
+          var(--dark-grey) 0%,
+          #34495e 50%,
+          #5d6d7e 100%
+        );
+        padding: 20px 0;
+        color: white;
+        z-index: 1000;
+        border-right: 4px solid var(--soft-brown);
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sidebar-brand {
+        padding: 0 20px 20px;
+        text-align: center;
+        border-bottom: 2px solid var(--soft-brown);
+        margin-bottom: 20px;
+      }
+
+      .sidebar-brand i {
+        font-size: 2.5rem;
+        color: var(--soft-brown);
+        display: block;
+        margin-bottom: 10px;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .sidebar-brand h4 {
+        margin: 10px 0 0;
+        font-weight: 800;
+        font-family: "Quicksand", sans-serif;
+        letter-spacing: 0.5px;
+        font-size: 1.3rem;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        50% {
+          transform: scale(1.08);
         }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
-            color: var(--dark-grey);
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: var(--sidebar-width);
-            background: linear-gradient(135deg, var(--dark-grey) 0%, #34495E 50%, #5D6D7E 100%);
-            padding: 20px 0;
-            color: white;
-            z-index: 1000;
-            border-right: 4px solid var(--soft-brown);
-            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .sidebar-brand {
-            padding: 0 20px 20px;
-            text-align: center;
-            border-bottom: 2px solid var(--soft-brown);
-            margin-bottom: 20px;
-        }
-        
-        .sidebar-brand i {
-            font-size: 2.5rem;
-            color: var(--soft-brown);
-            display: block;
-            margin-bottom: 10px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        .sidebar-brand h4 {
-            margin: 10px 0 0;
-            font-weight: 800;
-            font-family: 'Quicksand', sans-serif;
-            letter-spacing: 0.5px;
-            font-size: 1.3rem;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-        
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            flex: 1;
-            overflow-y: auto;
-        }
-        
-        .sidebar-menu li a {
-            display: block;
-            padding: 15px 25px;
-            color: rgba(255, 255, 255, 0.85);
-            text-decoration: none;
-            transition: all 0.3s;
-            position: relative;
-            font-weight: 500;
-            border-left: 4px solid transparent;
-        }
-        
-        .sidebar-menu li a:hover {
-            background: rgba(212, 165, 116, 0.15);
-            color: var(--soft-brown);
-            padding-left: 35px;
-            border-left-color: var(--soft-brown);
-        }
-        
-        .sidebar-menu li a.active {
-            background: linear-gradient(90deg, rgba(16, 185, 129, 0.2) 0%, transparent 100%);
-            color: var(--secondary-emerald);
-            border-left-color: var(--primary-emerald);
-            padding-left: 30px;
-        }
-        
-        .sidebar-menu li a i {
-            margin-right: 12px;
-            width: 20px;
-            text-align: center;
-        }
-        
-        /* Sidebar Bottom Section - Language & Logout */
-        .sidebar-bottom {
-            margin-top: auto;
-            padding: 0 15px 15px;
-        }
-        
-        .language-section {
-            padding: 15px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 12px;
-            transition: all 0.3s;
-        }
-        
-        .language-section:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(212, 165, 116, 0.3);
-        }
-        
-        .language-section p {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 1.2px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .language-section p i {
-            margin-right: 6px;
-            font-size: 0.85rem;
-        }
-        
-        .language-buttons {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .lang-btn {
-            flex: 1;
-            padding: 10px 8px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.7);
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .lang-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--soft-brown);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
-        }
-        
-        .lang-btn.active {
-            border-color: var(--soft-brown);
-            background: linear-gradient(135deg, var(--soft-brown) 0%, var(--accent-brown) 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);
-        }
-        
-        .logout-section {
-            padding: 0;
-        }
-        
-        .logout-btn {
-            width: 100%;
-            padding: 14px 20px;
-            border: 2px solid #EF4444;
-            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
-            color: white;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-family: 'Poppins', sans-serif;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-        }
-        
-        .logout-btn:hover {
-            background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
-            border-color: #DC2626;
-        }
-        
-        .logout-btn:active {
-            transform: translateY(-1px);
-        }
-        
-        .logout-btn i {
-            font-size: 1.1rem;
-        }
+      }
+
+      .sidebar-menu {
+        list-style: none;
+        padding: 0;
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      .sidebar-menu li a {
+        display: block;
+        padding: 15px 25px;
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        transition: all 0.3s;
+        position: relative;
+        font-weight: 500;
+        border-left: 4px solid transparent;
+      }
+
+      .sidebar-menu li a:hover {
+        background: rgba(212, 165, 116, 0.15);
+        color: var(--soft-brown);
+        padding-left: 35px;
+        border-left-color: var(--soft-brown);
+      }
+
+      .sidebar-menu li a.active {
+        background: linear-gradient(
+          90deg,
+          rgba(16, 185, 129, 0.2) 0%,
+          transparent 100%
+        );
+        color: var(--secondary-emerald);
+        border-left-color: var(--primary-emerald);
+        padding-left: 30px;
+      }
+
+      .sidebar-menu li a i {
+        margin-right: 12px;
+        width: 20px;
+        text-align: center;
+      }
+
+      /* Sidebar Bottom Section - Language & Logout */
+      .sidebar-bottom {
+        margin-top: auto;
+        padding: 0 15px 15px;
+      }
+
+      .language-section {
+        padding: 15px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 12px;
+        transition: all 0.3s;
+      }
+
+      .language-section:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(212, 165, 116, 0.3);
+      }
+
+      .language-section p {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        display: flex;
+        align-items: center;
+      }
+
+      .language-section p i {
+        margin-right: 6px;
+        font-size: 0.85rem;
+      }
+
+      .language-buttons {
+        display: flex;
+        gap: 8px;
+      }
+
+      .lang-btn {
+        flex: 1;
+        padding: 10px 8px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.7);
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 0.8rem;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .lang-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: var(--soft-brown);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+      }
+
+      .lang-btn.active {
+        border-color: var(--soft-brown);
+        background: linear-gradient(
+          135deg,
+          var(--soft-brown) 0%,
+          var(--accent-brown) 100%
+        );
+        color: white;
+        box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);
+      }
+
+      .logout-section {
+        padding: 0;
+      }
+
+      .logout-btn {
+        width: 100%;
+        padding: 14px 20px;
+        border: 2px solid #ef4444;
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-family: "Poppins", sans-serif;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+      }
+
+      .logout-btn:hover {
+        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+        border-color: #dc2626;
+      }
+
+      .logout-btn:active {
+        transform: translateY(-1px);
+      }
+
+      .logout-btn i {
+        font-size: 1.1rem;
+      }
+      .main-content {
+        margin-left: var(--sidebar-width);
+        padding: 30px 25px;
+        min-height: 100vh;
+      }
+
+      .main-content h3 {
+        font-weight: 800;
+        color: var(--dark-grey);
+        font-family: "Quicksand", sans-serif;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+      }
+
+      .filter-card {
+        background: linear-gradient(135deg, white 0%, #f9fafb 100%);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 25px;
+        border: 1px solid #e5e7eb;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .filter-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(
+          circle,
+          rgba(16, 185, 129, 0.05) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+
+      .filter-card:hover {
+        box-shadow: 0 12px 35px rgba(16, 185, 129, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .filter-card .form-select,
+      .filter-card .form-control {
+        border-radius: 10px;
+        border: 2px solid #e5e7eb;
+        padding: 12px 15px;
+        font-family: "Poppins", sans-serif;
+        transition: all 0.3s;
+      }
+
+      .filter-card .form-select:focus,
+      .filter-card .form-control:focus {
+        border-color: var(--primary-emerald);
+        box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.15);
+      }
+
+      .transaction-card {
+        background: linear-gradient(135deg, white 0%, #f9fafb 100%);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        border-top: 4px solid var(--primary-emerald);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .transaction-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(
+          circle,
+          rgba(16, 185, 129, 0.08) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+
+      .transaction-card:hover {
+        box-shadow: 0 12px 35px rgba(16, 185, 129, 0.15);
+        transform: translateY(-5px);
+      }
+
+      .transaction-card h5 {
+        color: var(--dark-grey);
+        font-weight: 700;
+        font-family: "Quicksand", sans-serif;
+      }
+
+      .transaction-item {
+        padding: 20px;
+        border-bottom: 1px solid #f0f0f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s;
+        border-radius: 10px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .transaction-item:last-child {
+        border-bottom: none;
+      }
+
+      .transaction-item:hover {
+        background: linear-gradient(135deg, #f0fdf4 0%, #e0f7ee 100%);
+        padding-left: 25px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.1);
+      }
+
+      .transaction-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-right: 15px;
+        transition: all 0.3s;
+        background: linear-gradient(
+          135deg,
+          rgba(16, 185, 129, 0.1),
+          rgba(52, 211, 153, 0.1)
+        );
+        color: var(--primary-emerald);
+        font-weight: 600;
+      }
+
+      .transaction-item:hover .transaction-icon {
+        transform: scale(1.15) rotate(8deg);
+        background: linear-gradient(
+          135deg,
+          rgba(16, 185, 129, 0.2),
+          rgba(52, 211, 153, 0.2)
+        );
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2);
+      }
+
+      .btn-add {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--primary-emerald) 0%,
+          var(--primary-emerald-dark) 100%
+        );
+        color: white;
+        border: none;
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+      }
+
+      .btn-add:hover {
+        transform: scale(1.15) rotate(90deg);
+        box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+      }
+
+      .badge-income {
+        background: linear-gradient(135deg, #4caf50, #81c784);
+        color: white;
+      }
+
+      .badge-expense {
+        background: linear-gradient(135deg, #ef4444, #f87171);
+        color: white;
+      }
+
+      .badge-transfer {
+        background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        color: white;
+      }
+
+      .modal-content {
+        border-radius: 20px;
+        border: none;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-header {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        color: var(--primary-emerald-dark);
+        border: none;
+        border-radius: 20px 20px 0 0;
+        padding: 25px;
+      }
+
+      .modal-header .btn-close {
+        filter: invert(1);
+      }
+
+      .modal-title {
+        font-weight: 800;
+        font-family: "Quicksand", sans-serif;
+      }
+
+      .type-selector {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+      }
+
+      .type-btn {
+        flex: 1;
+        padding: 15px;
+        border: 2px solid #e5e7eb;
+        background: white;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+        color: var(--dark-grey);
+        font-weight: 600;
+      }
+
+      .type-btn:hover {
+        border-color: var(--primary-emerald);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.15);
+      }
+
+      .type-btn.active {
+        border-color: var(--primary-emerald);
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        color: var(--primary-emerald-dark);
+      }
+
+      .type-btn i {
+        font-size: 26px;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .modal-body {
+        padding: 30px;
+      }
+
+      .modal-body .form-label {
+        font-weight: 700;
+        color: var(--dark-grey);
+        margin-bottom: 10px;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .modal-body .form-control,
+      .modal-body .form-select {
+        border-radius: 10px;
+        border: 2px solid #e5e7eb;
+        padding: 12px 15px;
+        font-family: "Poppins", sans-serif;
+        transition: all 0.3s;
+      }
+
+      .modal-body .form-control:focus,
+      .modal-body .form-select:focus {
+        border-color: var(--primary-emerald);
+        box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.15);
+      }
+
+      .footer {
+        margin-left: var(--sidebar-width);
+        padding: 20px;
+        text-align: center;
+        color: var(--medium-grey);
+        font-size: 14px;
+        border-top: 2px solid #e5e7eb;
+        background: white;
+        font-weight: 500;
+      }
+
+      @media (max-width: 768px) {
         .main-content {
-            margin-left: var(--sidebar-width);
-            padding: 30px 25px;
-            min-height: 100vh;
-        }
-        
-        .main-content h3 {
-            font-weight: 800;
-            color: var(--dark-grey);
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-        }
-        
-        .filter-card {
-            background: linear-gradient(135deg, white 0%, #F9FAFB 100%);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            margin-bottom: 25px;
-            border: 1px solid #E5E7EB;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .filter-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-        
-        .filter-card:hover {
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.15);
-            transform: translateY(-2px);
-        }
-        
-        .filter-card .form-select,
-        .filter-card .form-control {
-            border-radius: 10px;
-            border: 2px solid #E5E7EB;
-            padding: 12px 15px;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
-        }
-        
-        .filter-card .form-select:focus,
-        .filter-card .form-control:focus {
-            border-color: var(--primary-emerald);
-            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.15);
-        }
-        
-        .transaction-card {
-            background: linear-gradient(135deg, white 0%, #F9FAFB 100%);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            border-top: 4px solid var(--primary-emerald);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .transaction-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
+          margin-left: 0;
+          padding: 15px;
         }
 
-        .transaction-card:hover {
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.15);
-            transform: translateY(-5px);
-        }
-        
-        .transaction-card h5 {
-            color: var(--dark-grey);
-            font-weight: 700;
-            font-family: 'Quicksand', sans-serif;
-        }
-        
-        .transaction-item {
-            padding: 20px;
-            border-bottom: 1px solid #F0F0F0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-            border-radius: 10px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .transaction-item:last-child {
-            border-bottom: none;
-        }
-        
-        .transaction-item:hover {
-            background: linear-gradient(135deg, #F0FDF4 0%, #E0F7EE 100%);
-            padding-left: 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.1);
-        }
-        
-        .transaction-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            margin-right: 15px;
-            transition: all 0.3s;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.1));
-            color: var(--primary-emerald);
-            font-weight: 600;
-        }
-        
-        .transaction-item:hover .transaction-icon {
-            transform: scale(1.15) rotate(8deg);
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.2));
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2);
-        }
-        
-        .btn-add {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-emerald) 0%, var(--primary-emerald-dark) 100%);
-            color: white;
-            border: none;
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
-            font-size: 24px;
-            cursor: pointer;
-            transition: all 0.3s;
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-        
-        .btn-add:hover {
-            transform: scale(1.15) rotate(90deg);
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
-        }
-        
-        .badge-income {
-            background: linear-gradient(135deg, #4CAF50, #81C784);
-            color: white;
-        }
-        
-        .badge-expense {
-            background: linear-gradient(135deg, #EF4444, #F87171);
-            color: white;
-        }
-        
-        .badge-transfer {
-            background: linear-gradient(135deg, #3B82F6, #60A5FA);
-            color: white;
-        }
-        
-        .modal-content {
-            border-radius: 20px;
-            border: none;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-        }
-        
-        .modal-header {
-            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
-            color: var(--primary-emerald-dark);
-            border: none;
-            border-radius: 20px 20px 0 0;
-            padding: 25px;
-        }
-        
-        .modal-header .btn-close {
-            filter: invert(1);
-        }
-        
-        .modal-title {
-            font-weight: 800;
-            font-family: 'Quicksand', sans-serif;
-        }
-        
-        .type-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-        
-        .type-btn {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid #E5E7EB;
-            background: white;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            color: var(--dark-grey);
-            font-weight: 600;
-        }
-        
-        .type-btn:hover {
-            border-color: var(--primary-emerald);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.15);
-        }
-        
-        .type-btn.active {
-            border-color: var(--primary-emerald);
-            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
-            color: var(--primary-emerald-dark);
-        }
-        
-        .type-btn i {
-            font-size: 26px;
-            display: block;
-            margin-bottom: 8px;
-        }
-        
-        .modal-body {
-            padding: 30px;
-        }
-        
-        .modal-body .form-label {
-            font-weight: 700;
-            color: var(--dark-grey);
-            margin-bottom: 10px;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .modal-body .form-control,
-        .modal-body .form-select {
-            border-radius: 10px;
-            border: 2px solid #E5E7EB;
-            padding: 12px 15px;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
-        }
-        
-        .modal-body .form-control:focus,
-        .modal-body .form-select:focus {
-            border-color: var(--primary-emerald);
-            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.15);
-        }
-        
         .footer {
-            margin-left: var(--sidebar-width);
-            padding: 20px;
-            text-align: center;
-            color: var(--medium-grey);
-            font-size: 14px;
-            border-top: 2px solid #E5E7EB;
-            background: white;
-            font-weight: 500;
+          margin-left: 0;
         }
-        
-        @media (max-width: 768px) {
-            .main-content {
-                margin-left: 0;
-                padding: 15px;
-            }
-            
-            .footer {
-                margin-left: 0;
-            }
-            
-            .btn-add {
-                bottom: 20px;
-                right: 20px;
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
-            }
+
+        .btn-add {
+          bottom: 20px;
+          right: 20px;
+          width: 50px;
+          height: 50px;
+          font-size: 20px;
         }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Sidebar -->
-        <div class="sidebar">
-        <div class="sidebar-brand">
-            <i class="fas fa-wallet fa-3x"></i>
-            <h4>Finance Manager</h4>
+    <div class="sidebar">
+      <div class="sidebar-brand">
+        <i class="fas fa-wallet fa-3x"></i>
+        <h4>Finance Manager</h4>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li>
+          <a href="dashboard.html"
+            ><i class="fas fa-home"></i
+            ><span data-i18n="dashboard">Dashboard</span></a
+          >
+        </li>
+        <li>
+          <a href="transaction.html" class="active"
+            ><i class="fas fa-exchange-alt"></i
+            ><span data-i18n="transactions">Transactions</span></a
+          >
+        </li>
+        <li>
+          <a href="statistics.html"
+            ><i class="fas fa-chart-pie"></i
+            ><span data-i18n="statistics">Statistics</span></a
+          >
+        </li>
+        <li>
+          <a href="accounts.html"
+            ><i class="fas fa-credit-card"></i
+            ><span data-i18n="accounts">Accounts</span></a
+          >
+        </li>
+        <li>
+          <a href="settings.html"
+            ><i class="fas fa-cog"></i
+            ><span data-i18n="settings">Settings</span></a
+          >
+        </li>
+      </ul>
+
+      <!-- Sidebar Bottom: Language & Logout -->
+      <div class="sidebar-bottom">
+        <!-- Language Switcher -->
+        <div class="language-section">
+          <p>
+            <i class="fas fa-globe"></i>
+            <span data-i18n="language">Language</span>
+          </p>
+          <div class="language-buttons">
+            <button
+              class="lang-btn active"
+              data-lang="id"
+              onclick="changeLang('id')"
+            >
+              🇮🇩 ID
+            </button>
+            <button class="lang-btn" data-lang="en" onclick="changeLang('en')">
+              🇺🇸 EN
+            </button>
+          </div>
         </div>
-        
-        <ul class="sidebar-menu">
-            <li><a href="dashboard.html"><i class="fas fa-home"></i><span data-i18n="dashboard">Dashboard</span></a></li>
-            <li><a href="transaction.html" class="active"><i class="fas fa-exchange-alt"></i><span data-i18n="transactions">Transactions</span></a></li>
-            <li><a href="statistics.html"><i class="fas fa-chart-pie"></i><span data-i18n="statistics">Statistics</span></a></li>
-            <li><a href="accounts.html"><i class="fas fa-credit-card"></i><span data-i18n="accounts">Accounts</span></a></li>
-            <li><a href="settings.html"><i class="fas fa-cog"></i><span data-i18n="settings">Settings</span></a></li>
-        </ul>
-        
-        <!-- Sidebar Bottom: Language & Logout -->
-        <div class="sidebar-bottom">
-            <!-- Language Switcher -->
-            <div class="language-section">
-                <p>
-                    <i class="fas fa-globe"></i>
-                    <span data-i18n="language">Language</span>
-                </p>
-                <div class="language-buttons">
-                    <button class="lang-btn active" data-lang="id" onclick="changeLang('id')">
-                        🇮🇩 ID
-                    </button>
-                    <button class="lang-btn" data-lang="en" onclick="changeLang('en')">
-                        🇺🇸 EN
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Logout Button -->
-            <div class="logout-section">
-                <button class="logout-btn" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span data-i18n="logout">Logout</span>
-                </button>
-            </div>
+
+        <!-- Logout Button -->
+        <div class="logout-section">
+          <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span data-i18n="logout">Logout</span>
+          </button>
         </div>
+      </div>
     </div>
-    
+
     <!-- Main Content -->
     <div class="main-content">
-        <h3 class="mb-4"><i class="fas fa-exchange-alt me-2"></i><span data-i18n="transactionPageTitle">Transactions</span></h3>
-        
-        <!-- Filters -->
-        <div class="filter-card">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <select class="form-select" id="filterType" title="Pilih tipe transaksi">
-                        <option value="" data-i18n="allTypes">Semua Tipe</option>
-                        <option value="income" data-i18n="income">Pemasukan</option>
-                        <option value="expense" data-i18n="expense">Pengeluaran</option>
-                        <option value="transfer" data-i18n="transfer">Transfer</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select" id="filterAccount" title="Pilih akun">
-                        <option value="" data-i18n="allAccounts">Semua Akun</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <input type="date" class="form-control" id="filterDateFrom" title="Tanggal mulai" placeholder="Dari">
-                </div>
-                <div class="col-md-3">
-                    <input type="date" class="form-control" id="filterDateTo" title="Tanggal akhir" placeholder="Hingga">
-                </div>
-            </div>
-            <div class="mt-3">
-                <button class="btn btn-primary" onclick="applyFilters()">
-                    <i class="fas fa-filter me-2"></i><span data-i18n="filterBtn">Filter</span>
-                </button>
-                <button class="btn btn-secondary" onclick="resetFilters()">
-                    <i class="fas fa-undo me-2"></i><span data-i18n="resetBtn">Reset</span>
-                </button>
-            </div>
+      <h3 class="mb-4">
+        <i class="fas fa-exchange-alt me-2"></i
+        ><span data-i18n="transactionPageTitle">Transactions</span>
+      </h3>
+
+      <!-- Filters -->
+      <div class="filter-card">
+        <div class="row g-3">
+          <div class="col-md-3">
+            <select
+              class="form-select"
+              id="filterType"
+              title="Pilih tipe transaksi"
+            >
+              <option value="" data-i18n="allTypes">Semua Tipe</option>
+              <option value="income" data-i18n="income">Pemasukan</option>
+              <option value="expense" data-i18n="expense">Pengeluaran</option>
+              <option value="transfer" data-i18n="transfer">Transfer</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" id="filterAccount" title="Pilih akun">
+              <option value="" data-i18n="allAccounts">Semua Akun</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <input
+              type="date"
+              class="form-control"
+              id="filterDateFrom"
+              title="Tanggal mulai"
+              placeholder="Dari"
+            />
+          </div>
+          <div class="col-md-3">
+            <input
+              type="date"
+              class="form-control"
+              id="filterDateTo"
+              title="Tanggal akhir"
+              placeholder="Hingga"
+            />
+          </div>
         </div>
-        
-        <!-- Transactions List -->
-        <div class="transaction-card">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="mb-0" data-i18n="transactionList">Daftar Transaksi</h5>
-                <span class="badge bg-primary" id="transactionCount">0 <span data-i18n="transactionCount">Transaksi</span></span>
-            </div>
-            
-            <div id="transactionsList">
-                <p class="text-center text-muted p-4" data-i18n="loadingData">Memuat data...</p>
-            </div>
+        <div class="mt-3">
+          <button class="btn btn-primary" onclick="applyFilters()">
+            <i class="fas fa-filter me-2"></i
+            ><span data-i18n="filterBtn">Filter</span>
+          </button>
+          <button class="btn btn-secondary" onclick="resetFilters()">
+            <i class="fas fa-undo me-2"></i
+            ><span data-i18n="resetBtn">Reset</span>
+          </button>
         </div>
+      </div>
+
+      <!-- Transactions List -->
+      <div class="transaction-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0" data-i18n="transactionList">Daftar Transaksi</h5>
+          <span class="badge bg-primary" id="transactionCount"
+            >0 <span data-i18n="transactionCount">Transaksi</span></span
+          >
+        </div>
+
+        <div id="transactionsList">
+          <p class="text-center text-muted p-4" data-i18n="loadingData">
+            Memuat data...
+          </p>
+        </div>
+      </div>
     </div>
-    
+
     <!-- Add Transaction Button -->
-    <button class="btn-add" data-bs-toggle="modal" data-bs-target="#transactionModal" onclick="openAddModal()" title="Tambah transaksi baru">
-        <i class="fas fa-plus"></i>
+    <button
+      class="btn-add"
+      data-bs-toggle="modal"
+      data-bs-target="#transactionModal"
+      onclick="openAddModal()"
+      title="Tambah transaksi baru"
+    >
+      <i class="fas fa-plus"></i>
     </button>
-    
+
     <!-- Transaction Modal -->
     <div class="modal fade" id="transactionModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle" data-i18n="addNewTransaction">Tambah Transaksi</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" title="Tutup dialog"></button>
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5
+              class="modal-title"
+              id="modalTitle"
+              data-i18n="addNewTransaction"
+            >
+              Tambah Transaksi
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              title="Tutup dialog"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="transactionForm" novalidate>
+              <input type="hidden" id="transactionId" />
+
+              <!-- Type Selector -->
+              <div class="type-selector">
+                <div
+                  class="type-btn active"
+                  onclick="selectType('income')"
+                  data-type="income"
+                >
+                  <i class="fas fa-arrow-down"></i>
+                  <div data-i18n="income">Pemasukan</div>
                 </div>
-                <div class="modal-body">
-                    <form id="transactionForm" novalidate>
-                        <input type="hidden" id="transactionId">
-                        
-                        <!-- Type Selector -->
-                        <div class="type-selector">
-                            <div class="type-btn active" onclick="selectType('income')" data-type="income">
-                                <i class="fas fa-arrow-down"></i>
-                                <div data-i18n="income">Pemasukan</div>
-                            </div>
-                            <div class="type-btn" onclick="selectType('expense')" data-type="expense">
-                                <i class="fas fa-arrow-up"></i>
-                                <div data-i18n="expense">Pengeluaran</div>
-                            </div>
-                            <div class="type-btn" onclick="selectType('transfer')" data-type="transfer">
-                                <i class="fas fa-exchange-alt"></i>
-                                <div data-i18n="transfer">Transfer</div>
-                            </div>
-                        </div>
-                        
-                        <input type="hidden" id="transactionType" value="income">
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" data-i18n="amount">Jumlah</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">Rp</span>
-                                    <input type="number" class="form-control" id="amount" name="amount" placeholder="Jumlah" title="Masukkan jumlah transaksi" required min="0" step="0.01">
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" data-i18n="date">Tanggal</label>
-                                <input type="date" class="form-control" id="date" name="date" title="Tanggal transaksi" required>
-                            </div>
-                        </div>
-                        
-                        <div class="row" id="categoryRow">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" data-i18n="category">Kategori</label>
-                                <select class="form-select" id="category" name="category" title="Pilih kategori" required>
-                                    <option value="" data-i18n="selectCategory">Pilih Kategori</option>
-                                </select>
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" data-i18n="account">Akun</label>
-                                <select class="form-select" id="account" name="account" title="Pilih akun" required>
-                                    <option value="" data-i18n="selectAccount">Pilih Akun</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="row d-none" id="transferRow">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" data-i18n="fromAccount">Dari Akun</label>
-                                <select class="form-select" id="fromAccount" name="fromAccount" title="Pilih akun asal">
-                                    <option value="" data-i18n="selectAccount">Pilih Akun</option>
-                                </select>
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" data-i18n="toAccount">Ke Akun</label>
-                                <select class="form-select" id="toAccount" name="toAccount" title="Pilih akun tujuan">
-                                    <option value="" data-i18n="selectAccount">Pilih Akun</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label"><span data-i18n="notes">Catatan</span> <span data-i18n="optional">(Opsional)</span></label>
-                            <textarea class="form-control" id="notes" rows="3" placeholder="Catatan (opsional)" title="Masukkan catatan transaksi"></textarea>
-                        </div>
-                        
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary flex-fill">
-                                <i class="fas fa-save me-2"></i><span data-i18n="save">Simpan</span>
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                <i class="fas fa-times me-2"></i><span data-i18n="cancel">Batal</span>
-                            </button>
-                        </div>
-                    </form>
+                <div
+                  class="type-btn"
+                  onclick="selectType('expense')"
+                  data-type="expense"
+                >
+                  <i class="fas fa-arrow-up"></i>
+                  <div data-i18n="expense">Pengeluaran</div>
                 </div>
-            </div>
+                <div
+                  class="type-btn"
+                  onclick="selectType('transfer')"
+                  data-type="transfer"
+                >
+                  <i class="fas fa-exchange-alt"></i>
+                  <div data-i18n="transfer">Transfer</div>
+                </div>
+              </div>
+
+              <input type="hidden" id="transactionType" value="income" />
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label" data-i18n="amount">Jumlah</label>
+                  <div class="input-group">
+                    <span class="input-group-text">Rp</span>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="amount"
+                      name="amount"
+                      placeholder="Jumlah"
+                      title="Masukkan jumlah transaksi"
+                      required
+                      min="0"
+                      step="0.01"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label" data-i18n="date">Tanggal</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="date"
+                    name="date"
+                    title="Tanggal transaksi"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="row" id="categoryRow">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label" data-i18n="category"
+                    >Kategori</label
+                  >
+                  <select
+                    class="form-select"
+                    id="category"
+                    name="category"
+                    title="Pilih kategori"
+                    required
+                  >
+                    <option value="" data-i18n="selectCategory">
+                      Pilih Kategori
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label" data-i18n="account">Akun</label>
+                  <select
+                    class="form-select"
+                    id="account"
+                    name="account"
+                    title="Pilih akun"
+                    required
+                  >
+                    <option value="" data-i18n="selectAccount">
+                      Pilih Akun
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row d-none" id="transferRow">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label" data-i18n="fromAccount"
+                    >Dari Akun</label
+                  >
+                  <select
+                    class="form-select"
+                    id="fromAccount"
+                    name="fromAccount"
+                    title="Pilih akun asal"
+                  >
+                    <option value="" data-i18n="selectAccount">
+                      Pilih Akun
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label" data-i18n="toAccount"
+                    >Ke Akun</label
+                  >
+                  <select
+                    class="form-select"
+                    id="toAccount"
+                    name="toAccount"
+                    title="Pilih akun tujuan"
+                  >
+                    <option value="" data-i18n="selectAccount">
+                      Pilih Akun
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label"
+                  ><span data-i18n="notes">Catatan</span>
+                  <span data-i18n="optional">(Opsional)</span></label
+                >
+                <textarea
+                  class="form-control"
+                  id="notes"
+                  rows="3"
+                  placeholder="Catatan (opsional)"
+                  title="Masukkan catatan transaksi"
+                ></textarea>
+              </div>
+
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary flex-fill">
+                  <i class="fas fa-save me-2"></i
+                  ><span data-i18n="save">Simpan</span>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  <i class="fas fa-times me-2"></i
+                  ><span data-i18n="cancel">Batal</span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
-    
+
     <!-- Footer -->
     <div class="footer">
-        <div class="footer-content">
-            <i class="fas fa-copyright me-2"></i><strong>Copyright by 23552011059_AzizaFirdaus_CNS-B_UASWEB1</strong>
-        </div>
+      <div class="footer-content">
+        <i class="fas fa-copyright me-2"></i
+        ><strong>Copyright by 23552011059_AzizaFirdaus_CNS-B_UASWEB1</strong>
+      </div>
     </div>
     <style>
-        .footer {
-            margin-left: var(--sidebar-width);
-            padding: 25px;
-            text-align: center;
-            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 50%, #A7F3D0 100%);
-            border-top: 3px solid var(--primary-emerald);
-            font-weight: 600;
-            color: var(--primary-emerald-dark);
-            font-size: 0.95rem;
-            box-shadow: 0 -5px 20px rgba(16, 185, 129, 0.15);
-        }
-        
-        .footer-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            letter-spacing: 0.5px;
-            animation: fadeIn 0.8s ease-out;
-        }
+      .footer {
+        margin-left: var(--sidebar-width);
+        padding: 25px;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          #f0fdf4 0%,
+          #dcfce7 50%,
+          #a7f3d0 100%
+        );
+        border-top: 3px solid var(--primary-emerald);
+        font-weight: 600;
+        color: var(--primary-emerald-dark);
+        font-size: 0.95rem;
+        box-shadow: 0 -5px 20px rgba(16, 185, 129, 0.15);
+      }
+
+      .footer-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        letter-spacing: 0.5px;
+        animation: fadeIn 0.8s ease-out;
+      }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -756,204 +960,263 @@
     <!-- Import Transactions module -->
     <script src="../assets/js/transactions.js"></script>
     <script>
-        // Use API_URL from app.js (APP_CONFIG.API_URL)
-        const API_URL = APP_CONFIG.API_URL;
-        let currentType = 'income';
-        let modal;
-        
-        function formatCurrency(amount) {
-            return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
+      // Use API_URL from app.js (APP_CONFIG.API_URL)
+      // Check if APP_CONFIG is defined
+      if (typeof APP_CONFIG === "undefined") {
+        console.error("APP_CONFIG not defined! app.js may not have loaded.");
+        alert(
+          "Error: Application configuration not loaded. Please refresh the page.",
+        );
+      }
+
+      const API_URL =
+        typeof APP_CONFIG !== "undefined" ? APP_CONFIG.API_URL : "/backend/api";
+      let currentType = "income";
+      let modal;
+
+      function formatCurrency(amount) {
+        return "Rp " + new Intl.NumberFormat("id-ID").format(amount);
+      }
+
+      async function checkAuth() {
+        try {
+          console.log("Checking authentication with:", API_URL);
+          const response = await fetch(`${API_URL}/auth.php?action=check`, {
+            credentials: "include",
+          });
+
+          if (!response.ok) {
+            console.error("Auth check response not OK:", response.status);
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log("Auth check result:", data);
+
+          if (!data.data || !data.data.authenticated) {
+            console.warn("User not authenticated, redirecting to login");
+            setTimeout(() => {
+              window.location.href = "login.html";
+            }, 500);
+          }
+        } catch (error) {
+          console.error("Auth check failed:", error);
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 500);
         }
-        
-        async function checkAuth() {
-            try {
-                const response = await fetch(`${API_URL}/auth.php?action=check`, {
-                    credentials: 'include'
-                });
-                const data = await response.json();
-                if (!data.data.authenticated) window.location.href = 'login.html';
-            } catch (error) {
-                window.location.href = 'login.html';
+      }
+
+      function selectType(type) {
+        currentType = type;
+        document.getElementById("transactionType").value = type;
+
+        document.querySelectorAll(".type-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        document.querySelector(`[data-type="${type}"]`).classList.add("active");
+
+        if (type === "transfer") {
+          document.getElementById("categoryRow").classList.add("d-none");
+          document.getElementById("transferRow").classList.remove("d-none");
+          document.getElementById("category").removeAttribute("required");
+        } else {
+          document.getElementById("categoryRow").classList.remove("d-none");
+          document.getElementById("transferRow").classList.add("d-none");
+          document
+            .getElementById("category")
+            .setAttribute("required", "required");
+          loadCategories(type);
+        }
+      }
+
+      async function loadAccounts() {
+        try {
+          const url = `${API_URL}/accounts.php?action=list`;
+          console.log("Loading accounts from:", url);
+
+          const response = await fetch(url, {
+            credentials: "include",
+          });
+          const data = await response.json();
+
+          console.log("Accounts response:", data);
+
+          if (data.error) {
+            console.error("API Error:", data.message);
+            return;
+          }
+
+          if (!data.data || !data.data.accounts) {
+            console.error(
+              "Invalid response structure. Expected data.data.accounts",
+            );
+            return;
+          }
+
+          const accounts = data.data.accounts;
+          const accountSelects = [
+            "account",
+            "fromAccount",
+            "toAccount",
+            "filterAccount",
+          ];
+
+          accountSelects.forEach((selectId) => {
+            const select = document.getElementById(selectId);
+            if (!select) {
+              console.warn(`Select element not found: ${selectId}`);
+              return;
             }
-        }
-        
-        function selectType(type) {
-            currentType = type;
-            document.getElementById('transactionType').value = type;
-            
-            document.querySelectorAll('.type-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`[data-type="${type}"]`).classList.add('active');
-            
-            if (type === 'transfer') {
-                document.getElementById('categoryRow').classList.add('d-none');
-                document.getElementById('transferRow').classList.remove('d-none');
-                document.getElementById('category').removeAttribute('required');
+
+            if (selectId === "filterAccount") {
+              select.innerHTML = '<option value="">Semua Akun</option>';
             } else {
-                document.getElementById('categoryRow').classList.remove('d-none');
-                document.getElementById('transferRow').classList.add('d-none');
-                document.getElementById('category').setAttribute('required', 'required');
-                loadCategories(type);
+              select.innerHTML = '<option value="">Pilih Akun</option>';
             }
+
+            if (Array.isArray(accounts) && accounts.length > 0) {
+              accounts.forEach((acc) => {
+                const option = document.createElement("option");
+                option.value = acc.id;
+                // Map old 'bank' type to new 'mbanking' type for display
+                const displayType =
+                  acc.type === "bank" ? "MBANKING" : acc.type.toUpperCase();
+                option.textContent = `${acc.name} (${displayType})`;
+                select.appendChild(option);
+              });
+              console.log(
+                `Loaded ${accounts.length} accounts into ${selectId}`,
+              );
+            } else {
+              console.warn("No accounts available");
+            }
+          });
+        } catch (error) {
+          console.error("Error loading accounts:", error);
         }
-        
-        async function loadAccounts() {
-            try {
-                const url = `${API_URL}/accounts.php?action=list`;
-                console.log('Loading accounts from:', url);
-                
-                const response = await fetch(url, {
-                    credentials: 'include'
-                });
-                const data = await response.json();
-                
-                console.log('Accounts response:', data);
-                
-                if (data.error) {
-                    console.error('API Error:', data.message);
-                    return;
-                }
-                
-                if (!data.data || !data.data.accounts) {
-                    console.error('Invalid response structure. Expected data.data.accounts');
-                    return;
-                }
-                
-                const accounts = data.data.accounts;
-                const accountSelects = ['account', 'fromAccount', 'toAccount', 'filterAccount'];
-                
-                accountSelects.forEach(selectId => {
-                    const select = document.getElementById(selectId);
-                    if (!select) {
-                        console.warn(`Select element not found: ${selectId}`);
-                        return;
-                    }
-                    
-                    if (selectId === 'filterAccount') {
-                        select.innerHTML = '<option value="">Semua Akun</option>';
-                    } else {
-                        select.innerHTML = '<option value="">Pilih Akun</option>';
-                    }
-                    
-                    if (Array.isArray(accounts) && accounts.length > 0) {
-                        accounts.forEach(acc => {
-                            const option = document.createElement('option');
-                            option.value = acc.id;
-                            // Map old 'bank' type to new 'mbanking' type for display
-                            const displayType = acc.type === 'bank' ? 'MBANKING' : acc.type.toUpperCase();
-                            option.textContent = `${acc.name} (${displayType})`;
-                            select.appendChild(option);
-                        });
-                        console.log(`Loaded ${accounts.length} accounts into ${selectId}`);
-                    } else {
-                        console.warn('No accounts available');
-                    }
-                });
-            } catch (error) {
-                console.error('Error loading accounts:', error);
-            }
+      }
+
+      async function loadCategories(type = "income") {
+        try {
+          const url = `${API_URL}/categories.php?action=list&type=${type}`;
+          console.log("Loading categories from:", url);
+
+          const response = await fetch(url, {
+            credentials: "include",
+          });
+          const data = await response.json();
+
+          console.log("Categories response:", data);
+
+          if (data.error) {
+            console.error("API Error:", data.message);
+            return;
+          }
+
+          if (!data.data || !data.data.categories) {
+            console.error(
+              "Invalid response structure. Expected data.data.categories",
+            );
+            return;
+          }
+
+          const select = document.getElementById("category");
+          if (!select) {
+            console.error("Category select element not found");
+            return;
+          }
+
+          select.innerHTML = '<option value="">Pilih Kategori</option>';
+
+          const categories = data.data.categories;
+          if (Array.isArray(categories) && categories.length > 0) {
+            categories.forEach((cat) => {
+              const option = document.createElement("option");
+              option.value = cat.id;
+              option.textContent = cat.name;
+              select.appendChild(option);
+            });
+            console.log(
+              `Loaded ${categories.length} categories for type: ${type}`,
+            );
+          } else {
+            console.warn(`No categories available for type: ${type}`);
+          }
+        } catch (error) {
+          console.error("Error loading categories:", error);
         }
-        
-        async function loadCategories(type = 'income') {
-            try {
-                const url = `${API_URL}/categories.php?action=list&type=${type}`;
-                console.log('Loading categories from:', url);
-                
-                const response = await fetch(url, {
-                    credentials: 'include'
-                });
-                const data = await response.json();
-                
-                console.log('Categories response:', data);
-                
-                if (data.error) {
-                    console.error('API Error:', data.message);
-                    return;
-                }
-                
-                if (!data.data || !data.data.categories) {
-                    console.error('Invalid response structure. Expected data.data.categories');
-                    return;
-                }
-                
-                const select = document.getElementById('category');
-                if (!select) {
-                    console.error('Category select element not found');
-                    return;
-                }
-                
-                select.innerHTML = '<option value="">Pilih Kategori</option>';
-                
-                const categories = data.data.categories;
-                if (Array.isArray(categories) && categories.length > 0) {
-                    categories.forEach(cat => {
-                        const option = document.createElement('option');
-                        option.value = cat.id;
-                        option.textContent = cat.name;
-                        select.appendChild(option);
-                    });
-                    console.log(`Loaded ${categories.length} categories for type: ${type}`);
-                } else {
-                    console.warn(`No categories available for type: ${type}`);
-                }
-            } catch (error) {
-                console.error('Error loading categories:', error);
-            }
+      }
+
+      async function loadTransactions(filters = {}) {
+        try {
+          let url = `${API_URL}/transactions.php?`;
+          if (filters.type) url += `type=${filters.type}&`;
+          if (filters.account_id) url += `account_id=${filters.account_id}&`;
+          if (filters.date_from) url += `date_from=${filters.date_from}&`;
+          if (filters.date_to) url += `date_to=${filters.date_to}&`;
+
+          const response = await fetch(url, {
+            credentials: "include",
+          });
+          const data = await response.json();
+
+          if (!data.error) {
+            const transactions = data.data.transactions;
+            displayTransactions(transactions);
+          }
+        } catch (error) {
+          console.error("Error loading transactions:", error);
         }
-        
-        async function loadTransactions(filters = {}) {
-            try {
-                let url = `${API_URL}/transactions.php?`;
-                if (filters.type) url += `type=${filters.type}&`;
-                if (filters.account_id) url += `account_id=${filters.account_id}&`;
-                if (filters.date_from) url += `date_from=${filters.date_from}&`;
-                if (filters.date_to) url += `date_to=${filters.date_to}&`;
-                
-                const response = await fetch(url, {
-                    credentials: 'include'
-                });
-                const data = await response.json();
-                
-                if (!data.error) {
-                    const transactions = data.data.transactions;
-                    displayTransactions(transactions);
-                }
-            } catch (error) {
-                console.error('Error loading transactions:', error);
-            }
+      }
+
+      function displayTransactions(transactions) {
+        const container = document.getElementById("transactionsList");
+        document.getElementById("transactionCount").textContent =
+          `${transactions.length} Transaksi`;
+
+        if (transactions.length === 0) {
+          container.innerHTML =
+            '<p class="text-center text-muted p-4">Belum ada transaksi</p>';
+          return;
         }
-        
-        function displayTransactions(transactions) {
-            const container = document.getElementById('transactionsList');
-            document.getElementById('transactionCount').textContent = `${transactions.length} Transaksi`;
-            
-            if (transactions.length === 0) {
-                container.innerHTML = '<p class="text-center text-muted p-4">Belum ada transaksi</p>';
-                return;
-            }
-            
-            let html = '';
-            transactions.forEach(t => {
-                const typeClass = t.type === 'income' ? 'success' : (t.type === 'expense' ? 'danger' : 'primary');
-                const typeLabel = t.type === 'income' ? 'Pemasukan' : (t.type === 'expense' ? 'Pengeluaran' : 'Transfer');
-                const iconBg = t.type === 'income' ? 'rgba(39, 174, 96, 0.1)' : (t.type === 'expense' ? 'rgba(231, 76, 60, 0.1)' : 'rgba(52, 152, 219, 0.1)');
-                
-                html += `
+
+        let html = "";
+        transactions.forEach((t) => {
+          const typeClass =
+            t.type === "income"
+              ? "success"
+              : t.type === "expense"
+                ? "danger"
+                : "primary";
+          const typeLabel =
+            t.type === "income"
+              ? "Pemasukan"
+              : t.type === "expense"
+                ? "Pengeluaran"
+                : "Transfer";
+          const iconBg =
+            t.type === "income"
+              ? "rgba(39, 174, 96, 0.1)"
+              : t.type === "expense"
+                ? "rgba(231, 76, 60, 0.1)"
+                : "rgba(52, 152, 219, 0.1)";
+
+          html += `
                     <div class="transaction-item">
                         <div class="d-flex align-items-center flex-grow-1">
                             <div class="transaction-icon" style="background: ${iconBg}; color: var(--${typeClass});">
-                                <i class="fas fa-${t.category_icon || 'exchange-alt'}"></i>
+                                <i class="fas fa-${t.category_icon || "exchange-alt"}"></i>
                             </div>
                             <div>
-                                <strong>${t.category_name || 'Transfer'}</strong>
-                                <br><small class="text-muted">${t.account_name} • ${new Date(t.date).toLocaleDateString('id-ID')}</small>
-                                ${t.notes ? `<br><small class="text-muted"><i class="fas fa-sticky-note me-1"></i>${t.notes}</small>` : ''}
+                                <strong>${t.category_name || "Transfer"}</strong>
+                                <br><small class="text-muted">${t.account_name} • ${new Date(t.date).toLocaleDateString("id-ID")}</small>
+                                ${t.notes ? `<br><small class="text-muted"><i class="fas fa-sticky-note me-1"></i>${t.notes}</small>` : ""}
                             </div>
                         </div>
                         <div class="text-end">
                             <div class="text-${typeClass} fw-bold mb-1">
-                                ${t.type === 'expense' ? '-' : '+'} ${formatCurrency(t.amount)}
+                                ${t.type === "expense" ? "-" : "+"} ${formatCurrency(t.amount)}
                             </div>
                             <div>
                                 <button class="btn btn-sm btn-outline-primary me-1" onclick="editTransaction(${t.id})">
@@ -966,254 +1229,277 @@
                         </div>
                     </div>
                 `;
-            });
-            
-            container.innerHTML = html;
+        });
+
+        container.innerHTML = html;
+      }
+
+      function applyFilters() {
+        const filters = {
+          type: document.getElementById("filterType").value,
+          account_id: document.getElementById("filterAccount").value,
+          date_from: document.getElementById("filterDateFrom").value,
+          date_to: document.getElementById("filterDateTo").value,
+        };
+        loadTransactions(filters);
+      }
+
+      function resetFilters() {
+        document.getElementById("filterType").value = "";
+        document.getElementById("filterAccount").value = "";
+        document.getElementById("filterDateFrom").value = "";
+        document.getElementById("filterDateTo").value = "";
+        loadTransactions();
+      }
+
+      function openAddModal() {
+        document.getElementById("modalTitle").textContent = "Tambah Transaksi";
+        document.getElementById("transactionForm").reset();
+        document.getElementById("transactionId").value = "";
+        document.getElementById("date").value = new Date()
+          .toISOString()
+          .split("T")[0];
+
+        // Check if type parameter is in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const typeParam = urlParams.get("type");
+
+        if (
+          typeParam &&
+          ["income", "expense", "transfer"].includes(typeParam)
+        ) {
+          selectType(typeParam);
+        } else {
+          selectType("income");
         }
-        
-        function applyFilters() {
-            const filters = {
-                type: document.getElementById('filterType').value,
-                account_id: document.getElementById('filterAccount').value,
-                date_from: document.getElementById('filterDateFrom').value,
-                date_to: document.getElementById('filterDateTo').value
-            };
-            loadTransactions(filters);
+      }
+
+      async function editTransaction(id) {
+        try {
+          const response = await fetch(`${API_URL}/transactions.php?id=${id}`, {
+            credentials: "include",
+          });
+          const data = await response.json();
+
+          if (!data.error) {
+            const t = data.data.transaction;
+            document.getElementById("modalTitle").textContent =
+              "Edit Transaksi";
+            document.getElementById("transactionId").value = t.id;
+            document.getElementById("amount").value = t.amount;
+            document.getElementById("date").value = t.date;
+            document.getElementById("notes").value = t.notes || "";
+
+            selectType(t.type);
+
+            if (t.type === "transfer") {
+              document.getElementById("fromAccount").value = t.account_id;
+              document.getElementById("toAccount").value = t.to_account_id;
+            } else {
+              await loadCategories(t.type);
+              document.getElementById("category").value = t.category_id;
+              document.getElementById("account").value = t.account_id;
+            }
+
+            modal.show();
+          }
+        } catch (error) {
+          console.error("Error loading transaction:", error);
         }
-        
-        function resetFilters() {
-            document.getElementById('filterType').value = '';
-            document.getElementById('filterAccount').value = '';
-            document.getElementById('filterDateFrom').value = '';
-            document.getElementById('filterDateTo').value = '';
+      }
+
+      async function deleteTransaction(id) {
+        if (!confirm("Apakah Anda yakin ingin menghapus transaksi ini?"))
+          return;
+
+        try {
+          const response = await fetch(`${API_URL}/transactions.php?id=${id}`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+          const data = await response.json();
+
+          if (!data.error) {
+            alert("Transaksi berhasil dihapus!");
             loadTransactions();
+          } else {
+            alert("Error: " + data.message);
+          }
+        } catch (error) {
+          console.error("Error deleting transaction:", error);
         }
-        
-        function openAddModal() {
-            document.getElementById('modalTitle').textContent = 'Tambah Transaksi';
-            document.getElementById('transactionForm').reset();
-            document.getElementById('transactionId').value = '';
-            document.getElementById('date').value = new Date().toISOString().split('T')[0];
-            
-            // Check if type parameter is in URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const typeParam = urlParams.get('type');
-            
-            if (typeParam && ['income', 'expense', 'transfer'].includes(typeParam)) {
-                selectType(typeParam);
-            } else {
-                selectType('income');
+      }
+
+      document
+        .getElementById("transactionForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const id = document.getElementById("transactionId").value;
+          const type = document.getElementById("transactionType").value;
+
+          const formData = {
+            type: type,
+            amount: document.getElementById("amount").value,
+            transaction_date: document.getElementById("date").value,
+            notes: document.getElementById("notes").value,
+          };
+
+          if (type === "transfer") {
+            const fromAccount = document.getElementById("fromAccount").value;
+            const toAccount = document.getElementById("toAccount").value;
+
+            // Validate transfer
+            if (!fromAccount || !toAccount) {
+              alert("Silakan pilih akun asal dan akun tujuan untuk transfer!");
+              return;
             }
-        }
-        
-        async function editTransaction(id) {
-            try {
-                const response = await fetch(`${API_URL}/transactions.php?id=${id}`, {
-                    credentials: 'include'
-                });
-                const data = await response.json();
-                
-                if (!data.error) {
-                    const t = data.data.transaction;
-                    document.getElementById('modalTitle').textContent = 'Edit Transaksi';
-                    document.getElementById('transactionId').value = t.id;
-                    document.getElementById('amount').value = t.amount;
-                    document.getElementById('date').value = t.date;
-                    document.getElementById('notes').value = t.notes || '';
-                    
-                    selectType(t.type);
-                    
-                    if (t.type === 'transfer') {
-                        document.getElementById('fromAccount').value = t.account_id;
-                        document.getElementById('toAccount').value = t.to_account_id;
-                    } else {
-                        await loadCategories(t.type);
-                        document.getElementById('category').value = t.category_id;
-                        document.getElementById('account').value = t.account_id;
-                    }
-                    
-                    modal.show();
-                }
-            } catch (error) {
-                console.error('Error loading transaction:', error);
+
+            if (fromAccount === toAccount) {
+              alert("Akun asal dan akun tujuan tidak boleh sama!");
+              return;
             }
-        }
-        
-        async function deleteTransaction(id) {
-            if (!confirm('Apakah Anda yakin ingin menghapus transaksi ini?')) return;
-            
-            try {
-                const response = await fetch(`${API_URL}/transactions.php?id=${id}`, {
-                    method: 'DELETE',
-                    credentials: 'include'
-                });
-                const data = await response.json();
-                
-                if (!data.error) {
-                    alert('Transaksi berhasil dihapus!');
-                    loadTransactions();
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            } catch (error) {
-                console.error('Error deleting transaction:', error);
+
+            formData.account_id = fromAccount;
+            formData.to_account_id = toAccount;
+          } else {
+            const category = document.getElementById("category").value;
+            const account = document.getElementById("account").value;
+
+            if (!category || !account) {
+              alert("Silakan pilih kategori dan akun!");
+              return;
             }
-        }
-        
-        document.getElementById('transactionForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const id = document.getElementById('transactionId').value;
-            const type = document.getElementById('transactionType').value;
-            
-            const formData = {
-                type: type,
-                amount: document.getElementById('amount').value,
-                transaction_date: document.getElementById('date').value,
-                notes: document.getElementById('notes').value
-            };
-            
-            if (type === 'transfer') {
-                const fromAccount = document.getElementById('fromAccount').value;
-                const toAccount = document.getElementById('toAccount').value;
-                
-                // Validate transfer
-                if (!fromAccount || !toAccount) {
-                    alert('Silakan pilih akun asal dan akun tujuan untuk transfer!');
-                    return;
-                }
-                
-                if (fromAccount === toAccount) {
-                    alert('Akun asal dan akun tujuan tidak boleh sama!');
-                    return;
-                }
-                
-                formData.account_id = fromAccount;
-                formData.to_account_id = toAccount;
-            } else {
-                const category = document.getElementById('category').value;
-                const account = document.getElementById('account').value;
-                
-                if (!category || !account) {
-                    alert('Silakan pilih kategori dan akun!');
-                    return;
-                }
-                
-                formData.category_id = category;
-                formData.account_id = account;
-            }
-            
-            try {
-                const url = id ? `${API_URL}/transactions.php?id=${id}` : `${API_URL}/transactions.php`;
-                const method = id ? 'PUT' : 'POST';
-                
-                const response = await fetch(url, {
-                    method: method,
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-                
-                const data = await response.json();
-                
-                if (!data.error) {
-                    alert(id ? 'Transaksi berhasil diupdate!' : 'Transaksi berhasil ditambahkan!');
-                    modal.hide();
-                    loadTransactions();
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            } catch (error) {
-                console.error('Error saving transaction:', error);
-                alert('Gagal menyimpan transaksi: ' + error.message);
-            }
-        });
-        
-        async function logout() {
-            if (confirm('Apakah Anda yakin ingin logout?')) {
-                await fetch(`${API_URL}/auth.php?action=logout`, { 
-                    method: 'POST',
-                    credentials: 'include'
-                });
-                window.location.href = 'login.html';
-            }
-        }
-        
-        // Language switching function
-        function changeLang(lang) {
-            if (langManager) {
-                langManager.setLanguage(lang);
-            }
-        }
-        
-        function updateLanguageButtons() {
-            const langButtons = document.querySelectorAll('.lang-btn');
-            langButtons.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-lang') === langManager.getCurrentLang()) {
-                    btn.classList.add('active');
-                    btn.style.borderColor = 'var(--soft-brown)';
-                    btn.style.color = 'white';
-                } else {
-                    btn.style.borderColor = 'transparent';
-                    btn.style.color = 'rgba(255,255,255,0.7)';
-                }
+
+            formData.category_id = category;
+            formData.account_id = account;
+          }
+
+          try {
+            const url = id
+              ? `${API_URL}/transactions.php?id=${id}`
+              : `${API_URL}/transactions.php`;
+            const method = id ? "PUT" : "POST";
+
+            const response = await fetch(url, {
+              method: method,
+              credentials: "include",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(formData),
             });
-        }
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(async () => {
-                
-                modal = new bootstrap.Modal(document.getElementById('transactionModal'));
-                
-                if (langManager) {
-                    langManager.updatePageContent();
-                    updateLanguageButtons();
-                }
-                
-                checkAuth();
-                
-                // Initialize missing accounts (E-Wallet) - wait for completion
-                try {
-                    const response = await fetch(`${API_URL}/auth.php?action=init-missing-accounts`, {
-                        credentials: 'include'
-                    });
-                    const result = await response.json();
-                    console.log('Missing accounts init result:', result);
-                    // Add delay to ensure database is updated
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                } catch (error) {
-                    console.warn('Could not initialize missing accounts:', error);
-                }
-                
-                // Initialize default data if needed
-                try {
-                    const initResponse = await fetch(`${API_URL}/init-user-data.php`, {
-                        credentials: 'include'
-                    });
-                    const initData = await initResponse.json();
-                    if (initData.data && (initData.data.categories_created || initData.data.accounts_created)) {
-                        console.log('Default data created:', initData.data);
-                    }
-                } catch (error) {
-                    console.warn('Could not initialize default data:', error);
-                }
-                
-                loadAccounts();
-                loadCategories();
-                loadTransactions();
-                
-                // Check if should auto-open modal for adding transaction
-                const urlParams = new URLSearchParams(window.location.search);
-                const action = urlParams.get('action');
-                
-                if (action === 'add') {
-                    openAddModal();
-                    modal.show();
-                }
-            }, 100);
+
+            const data = await response.json();
+
+            if (!data.error) {
+              alert(
+                id
+                  ? "Transaksi berhasil diupdate!"
+                  : "Transaksi berhasil ditambahkan!",
+              );
+              modal.hide();
+              loadTransactions();
+            } else {
+              alert("Error: " + data.message);
+            }
+          } catch (error) {
+            console.error("Error saving transaction:", error);
+            alert("Gagal menyimpan transaksi: " + error.message);
+          }
         });
+
+      async function logout() {
+        if (confirm("Apakah Anda yakin ingin logout?")) {
+          await fetch(`${API_URL}/auth.php?action=logout`, {
+            method: "POST",
+            credentials: "include",
+          });
+          window.location.href = "login.html";
+        }
+      }
+
+      // Language switching function
+      function changeLang(lang) {
+        if (langManager) {
+          langManager.setLanguage(lang);
+        }
+      }
+
+      function updateLanguageButtons() {
+        const langButtons = document.querySelectorAll(".lang-btn");
+        langButtons.forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.getAttribute("data-lang") === langManager.getCurrentLang()) {
+            btn.classList.add("active");
+            btn.style.borderColor = "var(--soft-brown)";
+            btn.style.color = "white";
+          } else {
+            btn.style.borderColor = "transparent";
+            btn.style.color = "rgba(255,255,255,0.7)";
+          }
+        });
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(async () => {
+          modal = new bootstrap.Modal(
+            document.getElementById("transactionModal"),
+          );
+
+          if (langManager) {
+            langManager.updatePageContent();
+            updateLanguageButtons();
+          }
+
+          checkAuth();
+
+          // Initialize missing accounts (E-Wallet) - wait for completion
+          try {
+            const response = await fetch(
+              `${API_URL}/auth.php?action=init-missing-accounts`,
+              {
+                credentials: "include",
+              },
+            );
+            const result = await response.json();
+            console.log("Missing accounts init result:", result);
+            // Add delay to ensure database is updated
+            await new Promise((resolve) => setTimeout(resolve, 500));
+          } catch (error) {
+            console.warn("Could not initialize missing accounts:", error);
+          }
+
+          // Initialize default data if needed
+          try {
+            const initResponse = await fetch(`${API_URL}/init-user-data.php`, {
+              credentials: "include",
+            });
+            const initData = await initResponse.json();
+            if (
+              initData.data &&
+              (initData.data.categories_created ||
+                initData.data.accounts_created)
+            ) {
+              console.log("Default data created:", initData.data);
+            }
+          } catch (error) {
+            console.warn("Could not initialize default data:", error);
+          }
+
+          loadAccounts();
+          loadCategories();
+          loadTransactions();
+
+          // Check if should auto-open modal for adding transaction
+          const urlParams = new URLSearchParams(window.location.search);
+          const action = urlParams.get("action");
+
+          if (action === "add") {
+            openAddModal();
+            modal.show();
+          }
+        }, 100);
+      });
     </script>
-</body>
+  </body>
 </html>
