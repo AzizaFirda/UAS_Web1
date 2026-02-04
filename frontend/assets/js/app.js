@@ -288,7 +288,13 @@ async function apiRequest(endpoint, options = {}) {
       AppState.isAuthenticated = false;
       AppState.user = null;
       localStorage.removeItem("user_name");
-      window.location.href = basePath + "/frontend/pages/login.html";
+      localStorage.removeItem("auth_token");
+      // Use relative path from pages directory
+      if (window.location.pathname.includes("/pages/")) {
+        window.location.href = "login.html";
+      } else {
+        window.location.href = basePath + "/frontend/pages/login.html";
+      }
       return;
     }
 
@@ -350,12 +356,25 @@ async function checkAuthentication() {
     AppState.isAuthenticated = data.data.authenticated;
 
     if (!AppState.isAuthenticated && !isPublicPage()) {
-      window.location.href = "/frontend/pages/login.html";
+      // Use relative path from pages directory
+      if (window.location.pathname.includes("/pages/")) {
+        window.location.href = "login.html";
+      } else {
+        window.location.href = basePath + "/frontend/pages/login.html";
+      }
     }
 
     return AppState.isAuthenticated;
   } catch (error) {
     console.error("Auth check failed:", error);
+    // On error, also redirect to login
+    if (!isPublicPage()) {
+      if (window.location.pathname.includes("/pages/")) {
+        window.location.href = "login.html";
+      } else {
+        window.location.href = basePath + "/frontend/pages/login.html";
+      }
+    }
     return false;
   }
 }
@@ -392,7 +411,14 @@ async function logout() {
       await apiPost("/auth.php?action=logout");
       AppState.user = null;
       AppState.isAuthenticated = false;
-      window.location.href = "/frontend/pages/login.html";
+      localStorage.removeItem("user_name");
+      localStorage.removeItem("auth_token");
+      // Use relative path from pages directory
+      if (window.location.pathname.includes("/pages/")) {
+        window.location.href = "login.html";
+      } else {
+        window.location.href = basePath + "/frontend/pages/login.html";
+      }
     } catch (error) {
       showToast("Gagal logout", "danger");
     }
