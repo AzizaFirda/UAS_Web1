@@ -1,7 +1,7 @@
 <?php
 // backend/config/database.php
 
-// Helper functions - MUST be defined BEFORE class to ensure they load
+// Helper functions - MUST be defined BEFORE class to ensure they always load
 function sendJSON($data, $statusCode = 200) {
     while (ob_get_level()) {
         ob_end_clean();
@@ -69,7 +69,7 @@ class Database {
             error_log("Database Connection Error: " . $e->getMessage());
             error_log("Host: " . $this->host . ", DB: " . $this->db_name . ", User: " . $this->username);
             
-            // Don't exit here - let helper functions be defined
+            // Don't exit here - throw exception instead
             http_response_code(500);
             throw new Exception('Database connection failed: ' . $e->getMessage());
         }

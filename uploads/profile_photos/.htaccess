@@ -1,5 +1,6 @@
 # Allow image uploads only
+
 Options -Indexes
 <Files ~ "\.php$">
-    Deny from all
+Deny from all
 </Files>

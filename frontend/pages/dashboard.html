@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Personal Finance Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="../assets/js/translations.js"></script>
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --primary-emerald: #10B981;
+            --primary-emerald-dark: #059669;
+            --secondary-emerald: #34D399;
+            --accent-brown: #8B4513;
+            --soft-brown: #D4A574;
+            --light-brown: #F5E6D3;
+            --pink: #FFC0CB;
+            --soft-pink: #FFE4E9;
+            --rose: #FF69B4;
+            --dark-grey: #2C3E50;
+            --medium-grey: #6B7280;
+            --light-grey: #F3F4F6;
+            --white: #FFFFFF;
+            --emerald-light: #D1FAE5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+            color: var(--dark-grey);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, var(--dark-grey) 0%, #34495E 50%, #5D6D7E 100%);
+            padding: 20px 0;
+            color: white;
+            z-index: 1000;
+            border-right: 4px solid var(--soft-brown);
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-brand {
+            padding: 0 20px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--soft-brown);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-brand i {
+            font-size: 2.5rem;
+            color: var(--soft-brown);
+            display: block;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .sidebar-brand h4 {
+            margin: 10px 0 0;
+            font-weight: 800;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 0.5px;
+            font-size: 1.3rem;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 15px 25px;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+        
+        .sidebar-menu li a:hover {
+            background: rgba(212, 165, 116, 0.15);
+            color: var(--soft-brown);
+            padding-left: 35px;
+            border-left-color: var(--soft-brown);
+        }
+        
+        .sidebar-menu li a.active {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.2) 0%, transparent 100%);
+            color: var(--secondary-emerald);
+            border-left-color: var(--primary-emerald);
+            padding-left: 30px;
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Sidebar Bottom Section - Language & Logout */
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 0 15px 15px;
+        }
+        
+        .language-section {
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+        
+        .language-section:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(212, 165, 116, 0.3);
+        }
+        
+        .language-section p {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .language-section p i {
+            margin-right: 6px;
+            font-size: 0.85rem;
+        }
+        
+        .language-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .lang-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--soft-brown);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+        }
+        
+        .lang-btn.active {
+            border-color: var(--soft-brown);
+            background: linear-gradient(135deg, var(--soft-brown) 0%, var(--accent-brown) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);
+        }
+        
+        .logout-section {
+            padding: 0;
+        }
+        
+        .logout-btn {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #EF4444;
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+        
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+            border-color: #DC2626;
+        }
+        
+        .logout-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .logout-btn i {
+            font-size: 1.1rem;
+        }
+        
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px 25px;
+            min-height: 100vh;
+        }
+        
+        .top-navbar {
+            background: linear-gradient(135deg, white 0%, #F9FAFB 100%);
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #E5E7EB;
+        }
+        
+        .top-navbar h5 {
+            font-weight: 700;
+            color: var(--dark-grey);
+            font-size: 1.5rem;
+        }
+        
+        .top-navbar small {
+            color: var(--medium-grey);
+            font-weight: 500;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, white 0%, #F9FAFB 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            border-top: 4px solid var(--primary-emerald);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.15);
+            border-top-color: var(--primary-emerald-dark);
+        }
+        
+        .stat-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.1));
+            color: var(--primary-emerald);
+        }
+        
+        .stat-card:hover .stat-card-icon {
+            transform: scale(1.15) rotate(5deg);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.2));
+        }
+        
+        .stat-card h6 {
+            color: var(--medium-grey);
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .stat-card h3 {
+            font-weight: 800;
+            margin: 0;
+            font-size: 28px;
+            color: var(--dark-grey);
+        }
+        
+        /* Financial Summary Card */
+        .financial-summary-card {
+            background: linear-gradient(135deg, var(--primary-emerald) 0%, var(--primary-emerald-dark) 100%);
+            border-radius: 20px;
+            padding: 35px 30px;
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .financial-summary-card::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .summary-title {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: 'Quicksand', sans-serif;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .summary-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .summary-chart-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .summary-chart-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .summary-chart-container {
+            width: 100%;
+            height: 120px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .summary-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 220px;
+        }
+        
+        .summary-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .summary-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 36px;
+            transition: all 0.3s ease;
+        }
+        
+        .income-icon {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.25));
+            color: var(--primary-emerald);
+        }
+        
+        .expense-icon {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.25));
+            color: #EF4444;
+        }
+        
+        .savings-icon {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(251, 191, 36, 0.25));
+            color: #FCD34D;
+        }
+        
+        .balance-icon {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.25));
+            color: var(--primary-emerald);
+        }
+        
+        .summary-item:hover .summary-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+        
+        .summary-item-label {
+            font-size: 0.9rem;
+            color: var(--medium-grey);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+        }
+        
+        .summary-item-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark-grey);
+            margin: 0;
+            word-break: break-word;
+        }
+        
+        .add-btn-summary {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            color: var(--primary-emerald);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+        
+        .add-btn-summary:hover {
+            transform: scale(1.15) rotate(90deg);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card {
+            background: white;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+            border-bottom: 2px solid #E5E7EB;
+            font-weight: 700;
+            padding: 20px;
+            border-radius: 15px 15px 0 0 !important;
+            color: var(--dark-grey);
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #E5E7EB;
+            transition: all 0.3s;
+        }
+        
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        
+        .transaction-item:hover {
+            background: #F9FAFB;
+            padding-left: 25px;
+        }
+        
+        .transaction-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+        
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-emerald) 0%, var(--primary-emerald-dark) 100%);
+            border: none;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.15) rotate(90deg);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            :root {
+                --sidebar-width: 0;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .summary-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .floating-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .footer {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-wallet fa-3x"></i>
+            <h4>Finance Manager</h4>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="dashboard.html" class="active"><i class="fas fa-home"></i><span data-i18n="dashboard">Dashboard</span></a></li>
+            <li><a href="transaction.html"><i class="fas fa-exchange-alt"></i><span data-i18n="transactions">Transactions</span></a></li>
+            <li><a href="statistics.html"><i class="fas fa-chart-pie"></i><span data-i18n="statistics">Statistics</span></a></li>
+            <li><a href="accounts.html"><i class="fas fa-credit-card"></i><span data-i18n="accounts">Accounts</span></a></li>
+            <li><a href="settings.html"><i class="fas fa-cog"></i><span data-i18n="settings">Settings</span></a></li>
+        </ul>
+        
+        <!-- Sidebar Bottom: Language & Logout -->
+        <div class="sidebar-bottom">
+            <!-- Language Switcher -->
+            <div class="language-section">
+                <p>
+                    <i class="fas fa-globe"></i>
+                    <span data-i18n="language">Language</span>
+                </p>
+                <div class="language-buttons">
+                    <button class="lang-btn active" data-lang="id" onclick="changeLang('id')">
+                        🇮🇩 ID
+                    </button>
+                    <button class="lang-btn" data-lang="en" onclick="changeLang('en')">
+                        🇺🇸 EN
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Logout Button -->
+            <div class="logout-section">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span data-i18n="logout">Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navbar -->
+        <div class="top-navbar">
+            <div>
+                <h5 class="mb-0" data-i18n="dashboardTitle">Dashboard</h5>
+                <small class="text-muted" id="currentDate"></small>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <span id="userName"></span>
+                </div>
+                <img src="../assets/img/default-avatar.png" alt="Profile" id="profilePhoto" class="rounded-circle" width="40" height="40" style="object-fit: cover;">
+            </div>
+        </div>
+        
+        <!-- Financial Summary Card -->
+        <div class="financial-summary-card">
+            <div class="summary-title" data-i18n="financialSummary">Financial Summary</div>
+            <div class="summary-content">
+                <!-- Income -->
+                <div class="summary-item">
+                    <div class="summary-icon income-icon">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="summary-item-label" data-i18n="totalIncome">Total Income</div>
+                    <p class="summary-item-value" id="summaryIncome">Rp 0</p>
+                </div>
+                
+                <!-- Expense -->
+                <div class="summary-item">
+                    <div class="summary-icon expense-icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="summary-item-label" data-i18n="totalExpense">Total Expense</div>
+                    <p class="summary-item-value" id="summaryExpense">Rp 0</p>
+                </div>
+                
+                <!-- Balance -->
+                <div class="summary-item">
+                    <div class="summary-icon balance-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="summary-item-label" data-i18n="balance">Total Balance</div>
+                    <p class="summary-item-value" id="summaryBalance">Rp 0</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Summary Cards (Hidden for Desktop, Visible for Mobile) -->
+        <div class="row" id="detailCardsRow" class="d-none">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon stat-card-icon-success">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <h6 data-i18n="incomeThisMonth">Pemasukan Bulan Ini</h6>
+                    <h3 class="text-success" id="monthIncome">Rp 0</h3>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon stat-card-icon-danger">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <h6 data-i18n="expenseThisMonth">Pengeluaran Bulan Ini</h6>
+                    <h3 class="text-danger" id="monthExpense">Rp 0</h3>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon stat-card-icon-primary">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h6>Total Aset</h6>
+                    <h3 class="text-primary" id="totalAssets">Rp 0</h3>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon stat-card-icon-info">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h6>Saldo Bulan Ini</h6>
+                    <h3 id="monthBalance">Rp 0</h3>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts Row 1 -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header" data-i18n="expenseByCategory">
+                        <i class="fas fa-chart-pie me-2"></i>Pengeluaran per Kategori
+                    </div>
+                    <div class="card-body">
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas id="expensePieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header" data-i18n="incomeExpenseChart">
+                        <i class="fas fa-chart-bar me-2"></i>Pemasukan vs Pengeluaran
+                    </div>
+                    <div class="card-body">
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas id="incomeExpenseChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts Row 2 -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" data-i18n="monthlyTrend">
+                        <i class="fas fa-chart-line me-2"></i>Tren 12 Bulan Terakhir
+                    </div>
+                    <div class="card-body">
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Transactions -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" data-i18n="recentTransactions">
+                        <i class="fas fa-history me-2"></i>Transaksi Terbaru
+                    </div>
+                    <div class="card-body p-0" id="recentTransactions">
+                        <p class="text-center text-muted p-4" data-i18n="loadingData">Memuat data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <!-- Floating Add Button -->
+    <button class="floating-btn" onclick="openTransactionModal()" title="Tambah Transaksi Baru">
+        <i class="fas fa-plus"></i>
+    </button>
+    
+    <!-- Transaction Type Modal -->
+    <div class="modal fade" id="transactionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header modal-header-gradient">
+                    <h5 class="modal-title modal-title-custom">Tambah Transaksi</h5>
+                    <button type="button" class="btn-close btn-close-custom" data-bs-dismiss="modal" title="Tutup dialog"></button>
+                </div>
+                <div class="modal-body modal-body-custom">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <button class="btn w-100 py-4 btn-transaction-income" onclick="goToAddTransaction('income')">
+                                <i class="fas fa-arrow-up fa-2x mb-2"></i><br>
+                                <strong>Pemasukan</strong>
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn w-100 py-4 btn-transaction-expense" onclick="goToAddTransaction('expense')">
+                                <i class="fas fa-arrow-down fa-2x mb-2"></i><br>
+                                <strong>Pengeluaran</strong>
+                            </button>
+                        </div>
+                        <div class="col-md-12">
+                            <button class="btn w-100 py-4 btn-transaction-transfer" onclick="goToAddTransaction('transfer')">
+                                <i class="fas fa-exchange-alt fa-2x mb-2"></i><br>
+                                <strong>Transfer</strong>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <i class="fas fa-copyright me-2"></i><strong>Copyright by 23552011059_AzizaFirdaus_CNS-B_UASWEB1</strong>
+        </div>
+    </div>
+    <style>
+        .footer {
+            margin-left: var(--sidebar-width);
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 50%, #A7F3D0 100%);
+            border-top: 3px solid var(--primary-emerald);
+            font-weight: 600;
+            color: var(--primary-emerald-dark);
+            font-size: 0.95rem;
+            box-shadow: 0 -5px 20px rgba(16, 185, 129, 0.15);
+        }
+        
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.5px;
+            animation: fadeIn 0.8s ease-out;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        const currentPath = window.location.pathname;
+        const pathParts = currentPath.split('/');
+        let basePath = '';
+        
+        // Find the base path dynamically (everything up to 'frontend')
+        const frontendIndex = pathParts.indexOf('frontend');
+        if (frontendIndex > 0) {
+            basePath = pathParts.slice(0, frontendIndex).join('/');
+        }
+        
+        const API_URL = basePath + '/backend/api';
+        
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+        
+        // Check authentication
+        async function checkAuth() {
+            const token = localStorage.getItem('auth_token');
+            
+            // First check localStorage
+            if (!token) {
+                // If no token in localStorage, check with backend
+                try {
+                    const response = await fetch(`${API_URL}/auth.php?action=check`, {
+                        method: 'GET',
+                        credentials: 'include'
+                    });
+                    const data = await response.json();
+                    
+                    if (!data.data || !data.data.authenticated) {
+                        window.location.href = 'login.html';
+                        return false;
+                    }
+                    
+                    // If backend confirms auth, set token in localStorage
+                    localStorage.setItem('auth_token', 'token_' + Date.now());
+                    return true;
+                } catch (error) {
+                    console.error('Auth check error:', error);
+                    window.location.href = 'login.html';
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        // Load user info
+        async function loadUserInfo() {
+            try {
+                // First, try to get from localStorage immediately
+                const storedUserName = localStorage.getItem('user_name');
+                const storedProfilePhoto = localStorage.getItem('user_profile_photo');
+                console.log('Stored user name:', storedUserName);
+                
+                if (storedUserName && storedUserName !== 'undefined') {
+                    console.log('Setting user name from localStorage:', storedUserName);
+                    document.getElementById('userName').textContent = storedUserName;
+                }
+                
+                if (storedProfilePhoto && storedProfilePhoto !== 'undefined') {
+                    console.log('Setting profile photo from localStorage:', storedProfilePhoto);
+                    document.getElementById('profilePhoto').src = '/FinanceManagerWeb/uploads/profile/' + storedProfilePhoto;
+                }
+                
+                // Then try to load from API in background
+                const response = await fetch(`${API_URL}/auth.php?action=me`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                console.log('User info response:', data);
+                
+                if (data.data && data.data.user) {
+                    const userName = data.data.user.name;
+                    const profilePhoto = data.data.user.profile_photo;
+                    console.log('Updating from API:', userName);
+                    document.getElementById('userName').textContent = userName;
+                    localStorage.setItem('user_name', userName);
+                    
+                    // Update profile photo
+                    if (profilePhoto) {
+                        document.getElementById('profilePhoto').src = '/FinanceManagerWeb/uploads/profile/' + profilePhoto;
+                        localStorage.setItem('user_profile_photo', profilePhoto);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user:', error);
+            }
+        }
+        
+        // Load dashboard
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`${API_URL}/dashboard.php`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                if (data.error) {
+                    console.error('Error:', data.message);
+                    return;
+                }
+                
+                const summary = data.data.summary;
+                
+                // Update summary
+                document.getElementById('summaryIncome').textContent = formatCurrency(summary.month.income || 0);
+                document.getElementById('summaryExpense').textContent = formatCurrency(summary.month.expense || 0);
+                document.getElementById('summaryBalance').textContent = formatCurrency((summary.month.income || 0) - (summary.month.expense || 0));
+                
+                // Update detail cards
+                document.getElementById('monthIncome').textContent = formatCurrency(summary.month.income || 0);
+                document.getElementById('monthExpense').textContent = formatCurrency(summary.month.expense || 0);
+                document.getElementById('monthBalance').textContent = formatCurrency(summary.month.balance || 0);
+                document.getElementById('totalAssets').textContent = formatCurrency(summary.accounts.assets || 0);
+                
+                // Load charts
+                loadExpensePieChart(data.data.expense_by_category || []);
+                loadIncomeExpenseChart(data.data.monthly_trend || []);
+                loadTrendChart(data.data.monthly_trend || []);
+                loadRecentTransactions(data.data.recent_transactions || []);
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+        
+        
+        // Store chart instances
+        const dashboardCharts = {};
+        
+        // Color palette for charts
+        const chartColors = [
+            '#FF6B6B', // Red
+            '#4ECDC4', // Turquoise
+            '#45B7D1', // Blue
+            '#FFA07A', // Light Salmon
+            '#98D8C8', // Mint
+            '#F7DC6F', // Yellow
+            '#BB8FCE', // Purple
+            '#85C1E2', // Sky Blue
+            '#F8B88B', // Peach
+            '#A8D5BA', // Green
+            '#FFB6C1', // Pink
+            '#DDA0DD', // Plum
+            '#FFD700', // Gold
+            '#20B2AA', // Light Sea Green
+            '#FF69B4'  // Hot Pink
+        ];
+        
+        // Get color for category (cycle through colors)
+        function getCategoryColor(index) {
+            return chartColors[index % chartColors.length];
+        }
+        
+        // Load expense pie chart
+        function loadExpensePieChart(categories) {
+            const canvas = document.getElementById('expensePieChart');
+            if (!canvas) return;
+            
+            // Destroy existing chart
+            if (dashboardCharts.expensePie) {
+                dashboardCharts.expensePie.destroy();
+            }
+            
+            const ctx = canvas.getContext('2d');
+            
+            dashboardCharts.expensePie = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: categories.map(c => c.name),
+                    datasets: [{
+                        data: categories.map(c => parseFloat(c.total) || 0),
+                        backgroundColor: categories.map((c, index) => getCategoryColor(index)),
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = formatCurrency(context.raw);
+                                    return label + ': ' + value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Load trend chart (line chart)
+        function loadTrendChart(trendData) {
+            const canvas = document.getElementById('trendChart');
+            if (!canvas) return;
+            
+            // Destroy existing chart
+            if (dashboardCharts.trend) {
+                dashboardCharts.trend.destroy();
+            }
+            
+            const ctx = canvas.getContext('2d');
+            
+            dashboardCharts.trend = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: trendData.map(d => d.month || d.label || d.period),
+                    datasets: [
+                        {
+                            label: 'Pemasukan',
+                            data: trendData.map(d => parseFloat(d.income || 0)),
+                            borderColor: '#27ae60',
+                            backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            borderWidth: 2,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#27ae60',
+                            pointBorderColor: '#fff'
+                        },
+                        {
+                            label: 'Pengeluaran',
+                            data: trendData.map(d => parseFloat(d.expense || 0)),
+                            borderColor: '#e74c3c',
+                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            borderWidth: 2,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#e74c3c',
+                            pointBorderColor: '#fff'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatCurrency(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    }
+                }
+            });
+        }
+        
+        // Load income & expense bar chart
+        function loadIncomeExpenseChart(data) {
+            const ctx = document.getElementById('incomeExpenseChart');
+            if (!ctx) return;
+            
+            // Destroy existing chart
+            if (dashboardCharts.incomeExpense) {
+                dashboardCharts.incomeExpense.destroy();
+            }
+            
+            // Get last 6 months
+            const last6Months = data.slice(-6) || [];
+            
+            dashboardCharts.incomeExpense = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: last6Months.map(d => d.month || d.label || d.period || 'N/A'),
+                    datasets: [
+                        {
+                            label: 'Pemasukan',
+                            data: last6Months.map(d => parseFloat(d.income || 0)),
+                            backgroundColor: '#27ae60',
+                            borderRadius: 5,
+                            borderWidth: 0
+                        },
+                        {
+                            label: 'Pengeluaran',
+                            data: last6Months.map(d => parseFloat(d.expense || 0)),
+                            backgroundColor: '#e74c3c',
+                            borderRadius: 5,
+                            borderWidth: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatCurrency(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Load recent transactions
+        function loadRecentTransactions(transactions) {
+            const container = document.getElementById('recentTransactions');
+            
+            if (transactions.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted p-4">Belum ada transaksi</p>';
+                return;
+            }
+            
+            let html = '';
+            transactions.slice(0, 5).forEach(t => {
+                const typeColor = t.type === 'income' ? 'success' : (t.type === 'expense' ? 'danger' : 'primary');
+                const iconBg = t.type === 'income' ? 'rgba(39, 174, 96, 0.1)' : (t.type === 'expense' ? 'rgba(231, 76, 60, 0.1)' : 'rgba(52, 152, 219, 0.1)');
+                
+                html += `
+                    <div class="transaction-item">
+                        <div class="d-flex align-items-center">
+                            <div class="transaction-icon" style="background: ${iconBg}; color: var(--${typeColor});">
+                                <i class="fas fa-${t.category_icon || 'circle'}"></i>
+                            </div>
+                            <div>
+                                <strong>${t.category_name || 'Transfer'}</strong>
+                                <br><small class="text-muted">${t.account_name} • ${new Date(t.date).toLocaleDateString('id-ID')}</small>
+                            </div>
+                        </div>
+                        <div class="text-${typeColor} fw-bold">
+                            ${t.type === 'expense' ? '-' : '+'} ${formatCurrency(t.amount)}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Logout
+        async function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                await fetch(`${API_URL}/auth.php?action=logout`, { 
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Open transaction modal
+        function openTransactionModal() {
+            const modal = new bootstrap.Modal(document.getElementById('transactionModal'));
+            modal.show();
+        }
+        
+        // Go to add transaction with type
+        function goToAddTransaction(type) {
+            window.location.href = `transaction.html?action=add&type=${type}`;
+        }
+        
+        // Language switching function
+        function changeLang(lang) {
+            if (langManager) {
+                langManager.setLanguage(lang);
+            }
+        }
+        
+        function updateLanguageButtons() {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === langManager.getCurrentLang()) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // Initialize on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load user info immediately
+            loadUserInfo();
+            
+            setTimeout(async () => {
+                if (langManager) {
+                    langManager.updatePageContent();
+                    updateLanguageButtons();
+                }
+                
+                document.getElementById('currentDate').textContent = new Date().toLocaleDateString('id-ID', { 
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+                });
+                
+                checkAuth();
+                
+                // Initialize missing accounts (E-Wallet)
+                try {
+                    await fetch(`${APP_CONFIG.API_URL}/auth.php?action=init-missing-accounts`, {
+                        credentials: 'include'
+                    });
+                } catch (error) {
+                    console.warn('Could not initialize missing accounts:', error);
+                }
+                
+                // Initialize default data if needed
+                try {
+                    const initResponse = await fetch(`${APP_CONFIG.API_URL}/init-user-data.php`, {
+                        credentials: 'include'
+                    });
+                    const initData = await initResponse.json();
+                    if (initData.data && (initData.data.categories_created || initData.data.accounts_created)) {
+                        console.log('Default data created:', initData.data);
+                    }
+                } catch (error) {
+                    console.warn('Could not initialize default data:', error);
+                }
+                
+                loadDashboard();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

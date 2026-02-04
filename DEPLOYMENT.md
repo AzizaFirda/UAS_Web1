@@ -49,7 +49,7 @@ ls -la
 # Clone repository (pastikan masih di public_html/www)
 git clone https://github.com/AzizaFirda/UAS_Web1.git .
 
-# Tanda titik (.) penting! agar clone langsung ke folder current, 
+# Tanda titik (.) penting! agar clone langsung ke folder current,
 # bukan buat subfolder baru
 
 # Atau jika mau ke subfolder:
@@ -102,6 +102,7 @@ vi database.php
 ```
 
 **Edit bagian production:**
+
 ```php
 } else {
     // Production (hosting)
@@ -113,6 +114,7 @@ vi database.php
 ```
 
 **Simpan:**
+
 - Nano: `Ctrl + X`, tekan `Y`, tekan `Enter`
 - Vi: tekan `ESC`, ketik `:wq`, tekan `Enter`
 
@@ -152,6 +154,7 @@ nano .htaccess
 ```
 
 Isi:
+
 ```apache
 # Enable Rewrite Engine
 RewriteEngine On
@@ -181,6 +184,7 @@ php_value max_input_time 300
 ## ✅ LANGKAH 8: Test & Verifikasi
 
 ### A. Test Database Connection
+
 ```bash
 # Akses test script (jika ada)
 curl http://pipil.my.id/test-db-connection.php
@@ -217,6 +221,7 @@ git pull origin main
 ## 🚨 Troubleshooting
 
 ### Problem: Permission Denied
+
 ```bash
 # Cek ownership
 ls -la
@@ -226,6 +231,7 @@ chown -R username:username .
 ```
 
 ### Problem: Database Connection Failed
+
 ```bash
 # Test MySQL connection
 mysql -u username -p -h localhost database_name
@@ -235,6 +241,7 @@ cat backend/config/database.php
 ```
 
 ### Problem: 500 Internal Server Error
+
 ```bash
 # Cek error log
 tail -f ~/logs/error_log
@@ -248,6 +255,7 @@ php -v
 ```
 
 ### Problem: Upload tidak bisa
+
 ```bash
 # Set permission 777 (temporary)
 chmod -R 777 uploads/
@@ -263,9 +271,11 @@ php -i | grep upload
 ## 🎯 Best Practices
 
 ### 1. **Jangan Commit database.php**
+
 ✅ Sudah di .gitignore, aman!
 
 ### 2. **Update Rutin**
+
 ```bash
 # Di local
 git add .
@@ -277,12 +287,14 @@ git pull
 ```
 
 ### 3. **Backup Database**
+
 ```bash
 # Di hosting, buat cron job untuk backup
 mysqldump -u username -p database_name > backup-$(date +%Y%m%d).sql
 ```
 
 ### 4. **Monitor Error Logs**
+
 ```bash
 tail -f ~/logs/error_log
 ```
@@ -292,6 +304,7 @@ tail -f ~/logs/error_log
 ## 📞 Support
 
 Jika ada masalah:
+
 1. Cek error log di hosting
 2. Test database connection
 3. Pastikan PHP version >= 7.4
@@ -306,7 +319,7 @@ Jika ada masalah:
 ✅ History lengkap semua perubahan  
 ✅ Collaboration mudah dengan tim  
 ✅ Consistent deployment  
-✅ Tidak perlu upload manual lagi  
+✅ Tidak perlu upload manual lagi
 
 ---
 

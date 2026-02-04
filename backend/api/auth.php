@@ -55,12 +55,8 @@ header('Content-Type: application/json');
 
 // Handle CORS
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-$allowed_origins = ['localhost', '127.0.0.1', 'pipil.my.id', 'www.pipil.my.id'];
-foreach ($allowed_origins as $allowed) {
-    if (strpos($origin, $allowed) !== false) {
-        header('Access-Control-Allow-Origin: ' . $origin);
-        break;
-    }
+if (strpos($origin, 'localhost') !== false || strpos($origin, '127.0.0.1') !== false) {
+    header('Access-Control-Allow-Origin: ' . $origin);
 }
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
@@ -203,8 +199,7 @@ function handleMe($userModel) {
 
 function initializeDefaultData($userId) {
     try {
-        $database = new Database();
-        $db = $database->connect();
+        $db = getDB();
         
         // Check if user already has categories
         $checkSql = "SELECT COUNT(*) as count FROM categories WHERE user_id = :user_id";
@@ -283,8 +278,7 @@ function initializeDefaultData($userId) {
 }
 
 function handleInitMissingAccounts() {
-    $database = new Database();
-    $db = $database->connect();
+    $db = getDB();
     
     session_start();
     if (!isset($_SESSION['user_id'])) {
