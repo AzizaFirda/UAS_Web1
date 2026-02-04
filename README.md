@@ -1,111 +1,174 @@
-# Personal Finance Manager
+<h1 align="center">PERSONAL FINANCE MANAGER</h1>
 
-Aplikasi manajemen keuangan pribadi berbasis web untuk mengelola transaksi, budget, dan laporan keuangan.
+## TENTANG
 
-## 🚀 Live Demo
+**Personal Finance Manager** adalah sistem manajemen keuangan pribadi modern berbasis web yang dirancang untuk membantu pengguna mengelola transaksi keuangan, budget, dan membuat laporan keuangan secara efisien.
 
-**URL:** https://pipil.my.id
+Sistem ini menyediakan:
 
-## 📋 Fitur
+- **Aplikasi Web** dengan landing page informatif, sistem registrasi & login, serta panel dashboard untuk pengelolaan keuangan pribadi.
+- **Fitur Lengkap** untuk mencatat semua transaksi (pemasukan dan pengeluaran), mengelola anggaran, menganalisis statistik pengeluaran, serta membuat laporan keuangan dalam berbagai format.
 
-- ✅ Autentikasi User (Login/Register)
-- ✅ Dashboard Overview
-- ✅ Manajemen Transaksi (Income/Expense)
-- ✅ Manajemen Akun
-- ✅ Manajemen Kategori
-- ✅ Statistik & Charts
-- ✅ Export Reports (PDF/Excel)
-- ✅ Multi-bahasa (ID/EN)
-- ✅ Tema Light/Dark
+Proyek ini bertujuan untuk mendigitalkan proses pengelolaan keuangan pribadi agar lebih mudah, terstruktur, dan terukur.
 
-## 🛠️ Tech Stack
+---
 
-- **Frontend:** HTML5, CSS3, JavaScript (Vanilla), Chart.js
-- **Backend:** PHP 7.4+ (Native MVC)
-- **Database:** MySQL/MariaDB
-- **Server:** LiteSpeed (Anymhost)
+## FITUR UTAMA
 
-## 📂 Struktur Project
+### 🏠 Halaman Publik
+
+- **Landing Page** - Informasi lengkap tentang aplikasi dan keuntungannya
+- **Registrasi & Login** - Sistem autentikasi pengguna yang aman
+- **Welcome Page** - Panduan penggunaan aplikasi untuk pengguna baru
+
+### 📊 Dashboard & Management
+
+- **Dashboard** - Ringkasan pendapatan, pengeluaran, dan saldo total
+- **Manajemen Transaksi** - CRUD transaksi pemasukan dan pengeluaran
+- **Manajemen Akun** - Kelola berbagai akun keuangan (Bank, Dompet, Kartu Kredit, dll)
+- **Manajemen Kategori** - Buat dan kelola kategori pengeluaran/pemasukan
+- **Manajemen Budget** - Set dan monitor anggaran untuk setiap kategori
+- **Statistik & Analisis** - Visualisasi data dengan chart dan grafik
+- **Laporan Keuangan** - Export laporan dalam format PDF dan Excel
+- **Pengaturan Profil** - Manajemen profil dan preferensi pengguna
+- **Multi-Bahasa** - Dukungan bahasa Indonesia dan Inggris
+
+#### 🔐 Akun Demo
+
+| Email             | Password      |
+| :---------------- | :------------ |
+| `user@gmail.com` | `user123` |
+
+---
+
+## SCREENSHOT
+
+---
+
+## VIDEO DEMO
+
+---
+
+## TECH STACK
+
+### Backend
+
+| Komponen    | Teknologi                |
+| :---------- | :----------------------- |
+| Bahasa      | PHP 7.4+                 |
+| Framework   | Native MVC Architecture  |
+| Database    | MySQL/MariaDB            |
+| Autentikasi | Session-based            |
+| API         | RESTful API              |
+
+### Frontend
+
+| Komponen    | Teknologi                        |
+| :---------- | :------------------------------- |
+| Markup      | HTML5                            |
+| Styling     | CSS3                             |
+| JavaScript  | Vanilla JavaScript               |
+| Grafik      | Chart.js                         |
+| Responsive  | Mobile-friendly Design           |
+
+---
+
+## 📂 STRUKTUR PROJECT
 
 ```
-FinanceManagerWeb/
-├── backend/           # Backend API & Logic
-│   ├── api/          # REST API endpoints
-│   ├── config/       # Database config
-│   ├── controllers/  # Business logic
-│   ├── middleware/   # Auth middleware
-│   └── models/       # Data models
-├── frontend/         # Frontend assets
-│   ├── assets/       # CSS, JS, Images
-│   ├── components/   # Reusable components
-│   └── pages/        # HTML pages
-├── uploads/          # User uploads
-├── docs/             # Dokumentasi
-└── database.sql      # Database schema
-
+UAS_Web1/
+├── backend/                 # Backend API & Logic
+│   ├── api/                # REST API endpoints
+│   │   ├── accounts.php
+│   │   ├── auth.php
+│   │   ├── budgets.php
+│   │   ├── categories.php
+│   │   ├── dashboard.php
+│   │   ├── reports.php
+│   │   ├── statistics.php
+│   │   ├── transactions.php
+│   │   └── users.php
+│   ├── config/             # Database configuration
+│   ├── controllers/        # Business logic
+│   ├── middleware/         # Authentication middleware
+│   └── models/             # Data models
+├── frontend/               # Frontend assets & pages
+│   ├── assets/            # CSS, JS, Images
+│   ├── components/        # Reusable HTML components
+│   └── pages/             # HTML pages
+├── uploads/               # User uploads (profiles, etc)
+├── docs/                  # Dokumentasi
+├── database.sql           # Database schema
+├── index.html             # Entry point
+└── README.md              # Documentation
 ```
 
-## 📖 Dokumentasi
+---
 
-Dokumentasi lengkap tersedia di folder [`docs/`](docs/):
+## 🔧 INSTALATION
 
-- [Laporan Bug & Penyelesaian](docs/LAPORAN-BUG-DAN-PENYELESAIAN.md)
-- [Deployment Guide](docs/DEPLOYMENT.md)
-- [Audit Summary](docs/AUDIT-SUMMARY.md)
-- [Project README](docs/README-PROJECT.md)
+### Prasyarat
 
-## 🔐 Database Setup
-
-1. Import `database.sql` ke MySQL
-2. Update kredensial di `backend/config/database.php`
-3. Jalankan aplikasi
-
-## 👤 Default Login
-
-Setelah import database, gunakan:
-
-- **Email:** user@example.com
-- **Password:** password123
-
-## 📦 Installation
+- PHP 7.4 atau lebih tinggi
+- MySQL/MariaDB 5.7 atau lebih tinggi
+- Web Server (Apache, Nginx, atau LiteSpeed)
+- Composer (opsional, untuk dependency management)
 
 ### Local Development
 
 ```bash
-# Clone repository
+# 1. Clone repository
 git clone https://github.com/AzizaFirda/UAS_Web1.git
+cd UAS_Web1
 
-# Setup database
+# 2. Setup database
 mysql -u root -p < database.sql
 
-# Configure database
+# 3. Configure database connection
 cp backend/config/database.example.php backend/config/database.php
-# Edit database.php dengan kredensial Anda
+# Edit backend/config/database.php dengan kredensial MySQL Anda
 
-# Run dengan PHP built-in server
+# 4. Setup folder permissions
+chmod 755 uploads/
+chmod 755 uploads/profile/
+chmod 755 uploads/profile_photos/
+
+# 5. Jalankan dengan PHP built-in server
 php -S localhost:8000
+
+# 6. Buka di browser
+# http://localhost:8000
 ```
 
 ### Production Deployment
 
-Lihat [Deployment Guide](docs/DEPLOYMENT.md)
-
-## 🤝 Contributing
-
-Pull requests are welcome!
-
-## 📝 License
-
-Dibuat untuk UAS Web Programming 1
-
-## 👨‍💻 Developer
-
-**Aziza Firda**
-
-- GitHub: [@AzizaFirda](https://github.com/AzizaFirda)
-- Email: -
+Lihat [Deployment Guide](docs/DEPLOYMENT.md) untuk instruksi lengkap deployment ke production.
 
 ---
 
-**Version:** 1.0.0  
-**Last Updated:** 4 Februari 2026
+## 🚀 QUICK START
+
+1. **Buka aplikasi** - Akses `http://localhost:8000`
+2. **Register** - Buat akun baru atau gunakan akun demo
+3. **Login** - Masuk ke dashboard
+4. **Mulai kelola keuangan** - Tambahkan transaksi, budget, dan pantau statistik
+
+---
+
+## 👨‍💻 Developer
+
+|                 |                         |
+| :-------------- | :---------------------- |
+| **NPM**         | 23552011059             |
+| **Nama**        | Aziza Firdaus        |
+| **Kelas**       | TIF RP - 23 CNS B       |
+| **Mata Kuliah** | Pemrograman Web 1 (UAS) |
+---
+- GitHub: [@AzizaFirda](https://github.com/AzizaFirda)
+- Email: azizafirdaa@gmail.com
+
+---
+<p align="center">
+  Dibuat dengan ❤️ oleh Aziza Firdaus
+</p>
+
