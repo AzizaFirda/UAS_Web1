@@ -44,6 +44,7 @@ Proyek ini bertujuan untuk mendigitalkan proses pengelolaan keuangan pribadi aga
 ## SCREENSHOT
 
 **Landing Page**
+
 ![Landing Page](frontend/assets/img/landing1.png)
 
 ![Landing Page Lanjutan](frontend/assets/img/landing2.png)
@@ -51,36 +52,43 @@ Proyek ini bertujuan untuk mendigitalkan proses pengelolaan keuangan pribadi aga
 ---
 
 **Register**
+
 ![Register](frontend/assets/img/register.png)
 
 ---
 
 **Login**
+
 ![Login](frontend/assets/img/login.png)
 
 ---
 
 **Dashboard**
+
 ![Dashboard](frontend/assets/img/dashboard.png)
 
 ---
 
 **Transaksi**
+
 ![Transaksi](frontend/assets/img/transaksi.png)
 
 ---
 
 **Statistik**
+
 ![Statistik](frontend/assets/img/statistik.png)
 
 ---
 
 **Accounts**
+
 ![Akun](frontend/assets/img/akun.png)
 
 ---
 
 **Pengaturan**
+
 ![Pengaturan](frontend/assets/img/pengaturan.png)
 
 ---
